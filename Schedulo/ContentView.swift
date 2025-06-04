@@ -16,9 +16,14 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear {
+            testFetchCopyrightData()
+        }
     }
 }
 
 #Preview {
     ContentView()
 }
+
+// мой ключ 3c35e80c-ee35-4151-9e13-348cf777ab10
