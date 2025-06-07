@@ -11,9 +11,10 @@ import OpenAPIURLSession
 typealias RoutesBetweenStations = Components.Schemas.Segments
 
 protocol RoutesBetweenStationsServiceProtocol {
-    func getRoutesBetweenStations(from: String, to: String, date: String?) async throws -> RoutesBetweenStations
+    func getRoutesBetweenStations(from: String, to: String) async throws -> RoutesBetweenStations
 }
 
+/// Service to receive a list of trips from the specified departure station to the specified arrival station, along with details for each trip.
 final class RoutesBetweenStationsService: RoutesBetweenStationsServiceProtocol {
     private let client: Client
     private let apikey: String
@@ -23,18 +24,24 @@ final class RoutesBetweenStationsService: RoutesBetweenStationsServiceProtocol {
         self.apikey = apikey
     }
     
-    func getRoutesBetweenStations(from: String, to: String, date: String?) async throws -> RoutesBetweenStations {
+    ///  Perform request for list of trips between specified stations
+    /// - Parameters:
+    ///   - from:departure station
+    ///   - to: arrival station
+    ///   - date: date of a trip ( optional )
+    /// - Returns: response in a JSON format
+    func getRoutesBetweenStations(from: String, to: String) async throws -> RoutesBetweenStations {
         let response = try await client.getScheduleBetweenStations(query: .init(
             apikey: apikey,
             from: from,
             to: to,
-            date: date
         ))
         
         return try response.ok.body.json
     }
 }
 
+/// Func for test call API request
 func testFetchRoutesBetweenStations() {
     Task {
         do {
@@ -42,7 +49,7 @@ func testFetchRoutesBetweenStations() {
                 serverURL: try Servers.Server1.url(),
                 transport: URLSessionTransport()
             )
-            
+            //TODO: Заменить на enum appKeys.yandexRaspAPIKey.rawValue тут и дальше
             let service = RoutesBetweenStationsService(
                 client: client,
                 apikey: "3c35e80c-ee35-4151-9e13-348cf777ab10"
@@ -51,8 +58,7 @@ func testFetchRoutesBetweenStations() {
             print("Fetching routes between stations...")
             let response = try await service.getRoutesBetweenStations(
                 from: "s2000001",
-                to: "s9602496",
-                date: "2025-06-06"
+                to: "s9605027",
             )
             print("Got response:", response)
         } catch {
