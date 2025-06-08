@@ -1,2 +1,6 @@
+
+# Xcode user data (personal settings, breakpoints)
 *.xcuserstate
+*.xcuserdatad/
+xcuserdata/
 .DS_Store
