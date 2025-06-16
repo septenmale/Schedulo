@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DirectionView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.appBlue)
@@ -24,8 +24,7 @@ struct DirectionView: View {
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
-                        }
-                        )
+                        })
                         Spacer()
                         NavigationLink(destination: CitySelectionView(), label: {
                             HStack {
@@ -35,8 +34,7 @@ struct DirectionView: View {
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
-                        }
-                        )
+                        })
                     }
                     .padding()
                     .frame(width: 259, height: 96)
@@ -46,8 +44,12 @@ struct DirectionView: View {
                     )
                     Spacer()
                     // Кнопка вместе картинки
-                    Image(.reverseButton)
-                        .frame(width: 36, height: 36)
+                    Button {
+                        // Reverse elements
+                    } label: {
+                        Image(.reverseButton)
+                            .frame(width: 36, height: 36)
+                    }
                 }
                 .padding()
                 .frame(width: 343, height: 128)
@@ -55,7 +57,6 @@ struct DirectionView: View {
             }
             .offset(y: -120)
         }
-        
     }
 }
 

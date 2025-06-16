@@ -12,6 +12,11 @@ struct CitySelectionView: View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
             .padding()
             .background(Color.green)
+            .foregroundStyle(Color.appBlackDay)
+        
+            .navigationTitle(Text("Выбор города"))
+            .toolbarRole(.editor)
+            .toolbar(.hidden, for: .tabBar)
     }
 }
 
