@@ -1,0 +1,77 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "City selection" : {
+      "comment" : "Title for city selection screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City selection"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбор города"
+          }
+        }
+      }
+    },
+    "From" : {
+      "comment" : "Placeholder for main screen button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откуда"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "comment" : "Placeholder for search bar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите запрос"
+          }
+        }
+      }
+    },
+    "To" : {
+      "comment" : "Placeholder for main screen button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Куда"
+          }
+        }
+      }
+    },
+    "Тута будут настройки" : {
+
+    }
+  },
+  "version" : "1.0"
+}

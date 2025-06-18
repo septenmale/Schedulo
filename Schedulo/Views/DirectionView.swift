@@ -19,7 +19,7 @@ struct DirectionView: View {
                         NavigationLink(destination: CitySelectionView(), label: {
                             HStack {
                                 // Text must be changed by station name after selection
-                                Text("Откуда") // Локализация
+                                Text("From") // Локализация
                                     .foregroundStyle(Color.appGray)
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
@@ -29,7 +29,7 @@ struct DirectionView: View {
                         NavigationLink(destination: CitySelectionView(), label: {
                             HStack {
                                 // Text must be changed by station name after selection
-                                Text("Куда") // Локализация
+                                Text("To") // Локализация
                                     .foregroundStyle(Color.appGray)
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
