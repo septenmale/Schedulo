@@ -52,6 +52,16 @@
         }
       }
     },
+    "Station selection" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбор станции"
+          }
+        }
+      }
+    },
     "To" : {
       "comment" : "Placeholder for main screen button",
       "localizations" : {

@@ -8,6 +8,19 @@
 import SwiftUI
 
 struct DirectionView: View {
+    //TODO: Возможно текст в кнопках стоит сделать State чтобы изменения оказывались в нем после флоу выбора станции.
+    // Стоит так же создать структуру для передачи данных. Откуда/куда станция/город
+    
+    /// Описфывает возможные шаги моего флоу.
+    /// стоит подправить добавив переменные на прием или создав отдельно для откуда куда.
+    enum Route: Hashable {
+        case selectCity
+        case selectStation
+    }
+    
+    /// Навигационный стек. Сюда буду добавлять экраны
+    @State private var path: [Route] = []
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -16,20 +29,23 @@ struct DirectionView: View {
                     .frame(width: 343, height: 128)
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
-                        NavigationLink(destination: CitySelectionView(), label: {
+                        NavigationLink(
+                            destination: CitySelectionView(),
+                            label: {
                             HStack {
                                 // Text must be changed by station name after selection
-                                Text("From") // Локализация
+                                Text("From")
                                     .foregroundStyle(Color.appGray)
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
                         })
                         Spacer()
+                        //Передать выбранный город
                         NavigationLink(destination: CitySelectionView(), label: {
                             HStack {
                                 // Text must be changed by station name after selection
-                                Text("To") // Локализация
+                                Text("To") 
                                     .foregroundStyle(Color.appGray)
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
