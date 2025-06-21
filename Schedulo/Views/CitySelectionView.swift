@@ -11,13 +11,16 @@ struct CitySelectionView: View {
     //TODO: Вынести из View
     let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
     @State private var searchText = ""
+    @Binding var path: NavigationPath
+    var isFrom: Bool
     
     var body: some View {
-        // Тут убрал NavStack но он вроде как не нужен если есть на корневом вью
             ScrollView(showsIndicators: false) {
                 LazyVStack {
                     ForEach(searchResults, id: \.self) { name in
-                        NavigationLink(destination: StationSelectionView(city: name)) {
+                        Button {
+                            path.append(Route.stationSelection(isFrom: isFrom, city: name))
+                        } label: {
                             HStack {
                                 Text(name)
                                     .font(.system(size: 17, weight: .regular))
@@ -26,8 +29,8 @@ struct CitySelectionView: View {
                                 Image(.chevronIcon)
                             }
                             .padding()
-                            
                         }
+
                     }
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
@@ -52,5 +55,6 @@ struct CitySelectionView: View {
     // Поправить TabBar при возврате на главный экран ( появляется обратно с задержкой )
 
 #Preview {
-    CitySelectionView()
+    @Previewable @State var path = NavigationPath()
+    CitySelectionView(path: $path, isFrom: true)
 }

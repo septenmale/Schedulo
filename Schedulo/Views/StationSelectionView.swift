@@ -10,16 +10,18 @@ import SwiftUI
 struct StationSelectionView: View {
     /// stores value of selected city
     let city: String
+    var isFrom: Bool
+    
     let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
     @State private var searchText = ""
+    @Binding var path: NavigationPath
     
     var body: some View {
-        // Тут убрал NavStack но он вроде как не нужен если есть на корневом вью
             ScrollView(showsIndicators: false) {
                 LazyVStack {
                     ForEach(searchResult, id: \.self) { station in
                         Button {
-                            emptyAction()
+                            path = NavigationPath()
                         } label: {
                             HStack {
                                 Text(station)
@@ -36,10 +38,6 @@ struct StationSelectionView: View {
         .navigationTitle("Station selection")
         .toolbarRole(.editor)
     }
-    // Через кнопку следует передать выбранный город и станцию
-    func emptyAction() {
-        print("Button did tap")
-    }
     
     // Повторяется в двух View. Подумать над этим
     var searchResult: [String] {
@@ -52,5 +50,6 @@ struct StationSelectionView: View {
 }
 
 #Preview {
-    StationSelectionView(city: "Москва")
+    @Previewable @State var path = NavigationPath()
+    StationSelectionView(city: "Москва", isFrom: true, path: $path)
 }

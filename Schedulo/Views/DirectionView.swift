@@ -7,31 +7,30 @@
 
 import SwiftUI
 
+enum Route: Hashable {
+    case citySelection(isFrom: Bool)
+    case stationSelection(isFrom: Bool, city: String)
+}
+
+// Стоит так же создать структуру для передачи данных. Откуда/куда станция/город
+
 struct DirectionView: View {
-    //TODO: Возможно текст в кнопках стоит сделать State чтобы изменения оказывались в нем после флоу выбора станции.
-    // Стоит так же создать структуру для передачи данных. Откуда/куда станция/город
+    // Возможно текст в кнопках стоит сделать State чтобы изменения оказывались в нем после флоу выбора станции.
     
-    /// Описфывает возможные шаги моего флоу.
-    /// стоит подправить добавив переменные на прием или создав отдельно для откуда куда.
-    enum Route: Hashable {
-        case selectCity
-        case selectStation
-    }
-    
-    /// Навигационный стек. Сюда буду добавлять экраны
-    @State private var path: [Route] = []
+    /// массив в котором хранятся значения какой экран показывать
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.appBlue)
                     .frame(width: 343, height: 128)
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
-                        NavigationLink(
-                            destination: CitySelectionView(),
-                            label: {
+                        Button {
+                            path.append(Route.citySelection(isFrom: true))
+                        } label: {
                             HStack {
                                 // Text must be changed by station name after selection
                                 Text("From")
@@ -39,18 +38,21 @@ struct DirectionView: View {
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
-                        })
+                        }
                         Spacer()
                         //Передать выбранный город
-                        NavigationLink(destination: CitySelectionView(), label: {
+                        Button {
+                            path.append(Route.citySelection(isFrom: false))
+                        } label: {
                             HStack {
                                 // Text must be changed by station name after selection
-                                Text("To") 
+                                Text("To")
                                     .foregroundStyle(Color.appGray)
                                     .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
-                        })
+                        }
+                        
                     }
                     .padding()
                     .frame(width: 259, height: 96)
@@ -72,6 +74,15 @@ struct DirectionView: View {
                 
             }
             .offset(y: -120)
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .citySelection(let isFrom):
+                    CitySelectionView(path: $path, isFrom: isFrom)
+                case .stationSelection(let isFrom, let city):
+                    StationSelectionView(city: city, isFrom: isFrom, path: $path)
+                }
+            }
+            
         }
     }
 }
