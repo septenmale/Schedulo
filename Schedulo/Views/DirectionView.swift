@@ -27,38 +27,23 @@ struct DirectionView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            path.append(SelectionHistory(role: .from, isFrom: true))
-                            fromHistory.isFrom = true
+                            path.append(fromHistory)
                         } label: {
                             HStack {
-                                if fromHistory.city != nil {
-                                    Text(fromHistory.giveString())
-                                        .foregroundStyle(Color.appBlack)
-                                        .font(.system(size: 17, weight: .regular))
-                                } else {
-                                    // можно сократить оставив лишь один модификатор для шрифта меняя значение через colescing
-                                    Text(fromHistory.giveString())
-                                        .foregroundStyle(Color.appGray)
-                                        .font(.system(size: 17, weight: .regular))
-                                }
+                                Text(fromHistory.giveString())
+                                    .foregroundStyle(fromHistory.city != nil ? Color.appBlack : Color.appGray)
+                                    .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
                         }
                         Spacer()
                         Button {
-                            path.append(SelectionHistory(role: .to, isFrom: false))
-                            fromHistory.isFrom = false
+                            path.append(toHistory)
                         } label: {
                             HStack {
-                                if toHistory.city != nil {
-                                    Text(toHistory.giveString())
-                                        .foregroundStyle(Color.appBlack)
-                                        .font(.system(size: 17, weight: .regular))
-                                } else {
-                                    Text(toHistory.giveString())
-                                        .foregroundStyle(Color.appGray)
-                                        .font(.system(size: 17, weight: .regular))
-                                }
+                                Text(toHistory.giveString())
+                                    .foregroundStyle(toHistory.city != nil ? Color.appBlack : Color.appGray)
+                                    .font(.system(size: 17, weight: .regular))
                                 Spacer()
                             }
                         }
@@ -71,7 +56,6 @@ struct DirectionView: View {
                     )
                     Spacer()
                     Button {
-                        // Reverse elements
                         let x = fromHistory
                         fromHistory = toHistory
                         toHistory = x
@@ -82,25 +66,19 @@ struct DirectionView: View {
                 }
                 .padding()
                 .frame(width: 343, height: 128)
-                
             }
             .offset(y: -120)
             .navigationDestination(for: SelectionHistory.self) { step in
-                //TODO: Убрать форсы
                 if step.city == nil {
                     CitySelectionView(
                         path: $path,
-                        // достаточно будет прокидывать только role (step.role == .from ?)
-                        selectionHistory: step.isFrom! ? $fromHistory : $toHistory,
-                        isFrom: step.isFrom!
+                        selectionHistory: step.role == .from ? $fromHistory : $toHistory,
                     )
                 }
                 else {
                     StationSelectionView(
-                        city: step.city!,
-                        isFrom: step.isFrom!,
                         path: $path,
-                        selectionHistory: step.isFrom! ? $fromHistory : $toHistory
+                        selectionHistory: step.role == .from ? $fromHistory : $toHistory
                     )
                 }
             }

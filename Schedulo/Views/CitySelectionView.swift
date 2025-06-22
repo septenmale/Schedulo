@@ -13,15 +13,13 @@ struct CitySelectionView: View {
     @State private var searchText = ""
     @Binding var path: NavigationPath
     @Binding var selectionHistory: SelectionHistory
-    var isFrom: Bool
-    // Стоит передавать байдинг экземпляра структуры 
     
     var body: some View {
         ScrollView(showsIndicators: false) {
             LazyVStack {
                 ForEach(searchResults, id: \.self) { cityName in
                     Button {
-                        path.append(SelectionHistory(isFrom: isFrom, city: cityName))
+                        path.append(SelectionHistory(role: selectionHistory.role, city: cityName))
                         selectionHistory.city = cityName
                     } label: {
                         HStack {
@@ -38,7 +36,6 @@ struct CitySelectionView: View {
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
         }
-        
         .navigationTitle(Text("City selection"))
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
@@ -58,8 +55,8 @@ struct CitySelectionView: View {
 // Поправить TabBar при возврате на главный экран ( появляется обратно с задержкой )
 
 #Preview {
-    @Previewable @State var history = SelectionHistory(role: .from, isFrom: true)
+    @Previewable @State var history = SelectionHistory(role: .from)
     
     @Previewable @State var path = NavigationPath()
-    CitySelectionView(path: $path, selectionHistory: $history, isFrom: true)
+    CitySelectionView(path: $path, selectionHistory: $history)
 }

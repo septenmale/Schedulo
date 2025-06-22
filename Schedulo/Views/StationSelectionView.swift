@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct StationSelectionView: View {
-    /// stores value of selected city
-    let city: String
-    var isFrom: Bool
-    
     let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
     @State private var searchText = ""
     @Binding var path: NavigationPath
@@ -52,7 +48,7 @@ struct StationSelectionView: View {
 }
 
 #Preview {
-    @Previewable @State var history = SelectionHistory(role: .from, isFrom: true, city: "Москва")
+    @Previewable @State var history = SelectionHistory(role: .from)
     @Previewable @State var path = NavigationPath()
-    StationSelectionView(city: "Москва", isFrom: true, path: $path, selectionHistory: $history)
+    StationSelectionView(path: $path, selectionHistory: $history)
 }
