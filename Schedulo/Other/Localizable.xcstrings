@@ -20,6 +20,7 @@
     },
     "From" : {
       "comment" : "Placeholder for main screen button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -64,6 +65,7 @@
     },
     "To" : {
       "comment" : "Placeholder for main screen button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

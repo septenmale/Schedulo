@@ -12,29 +12,32 @@ struct CitySelectionView: View {
     let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
     @State private var searchText = ""
     @Binding var path: NavigationPath
+    @Binding var selectionHistory: SelectionHistory
     var isFrom: Bool
+    // Стоит передавать байдинг экземпляра структуры 
     
     var body: some View {
-            ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    ForEach(searchResults, id: \.self) { name in
-                        Button {
-                            path.append(Route.stationSelection(isFrom: isFrom, city: name))
-                        } label: {
-                            HStack {
-                                Text(name)
-                                    .font(.system(size: 17, weight: .regular))
-                                    .foregroundStyle(Color.appBlackDay)
-                                Spacer()
-                                Image(.chevronIcon)
-                            }
-                            .padding()
+        ScrollView(showsIndicators: false) {
+            LazyVStack {
+                ForEach(searchResults, id: \.self) { cityName in
+                    Button {
+                        path.append(SelectionHistory(isFrom: isFrom, city: cityName))
+                        selectionHistory.city = cityName
+                    } label: {
+                        HStack {
+                            Text(cityName)
+                                .font(.system(size: 17, weight: .regular))
+                                .foregroundStyle(Color.appBlackDay)
+                            Spacer()
+                            Image(.chevronIcon)
                         }
-
+                        .padding()
                     }
+                    
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
             }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
+        }
         
         .navigationTitle(Text("City selection"))
         .foregroundStyle(Color.appBlackDay)
@@ -51,10 +54,12 @@ struct CitySelectionView: View {
     }
 }
 
-    //TODO: Добавить город не найден в случае если не совпадает с поиском.
-    // Поправить TabBar при возврате на главный экран ( появляется обратно с задержкой )
+//TODO: Добавить город не найден в случае если не совпадает с поиском.
+// Поправить TabBar при возврате на главный экран ( появляется обратно с задержкой )
 
 #Preview {
+    @Previewable @State var history = SelectionHistory(role: .from, isFrom: true)
+    
     @Previewable @State var path = NavigationPath()
-    CitySelectionView(path: $path, isFrom: true)
+    CitySelectionView(path: $path, selectionHistory: $history, isFrom: true)
 }

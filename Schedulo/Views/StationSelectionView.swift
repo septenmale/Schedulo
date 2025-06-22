@@ -15,25 +15,27 @@ struct StationSelectionView: View {
     let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
     @State private var searchText = ""
     @Binding var path: NavigationPath
+    @Binding var selectionHistory: SelectionHistory
     
     var body: some View {
-            ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    ForEach(searchResult, id: \.self) { station in
-                        Button {
-                            path = NavigationPath()
-                        } label: {
-                            HStack {
-                                Text(station)
-                                Spacer()
-                                Image(.chevronIcon)
-                            }
-                            .padding()
+        ScrollView(showsIndicators: false) {
+            LazyVStack {
+                ForEach(searchResult, id: \.self) { station in
+                    Button {
+                        selectionHistory.station = station
+                        path = NavigationPath()
+                    } label: {
+                        HStack {
+                            Text(station)
+                            Spacer()
+                            Image(.chevronIcon)
                         }
+                        .padding()
                     }
                 }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
             }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
+        }
         
         .navigationTitle("Station selection")
         .toolbarRole(.editor)
@@ -50,6 +52,7 @@ struct StationSelectionView: View {
 }
 
 #Preview {
+    @Previewable @State var history = SelectionHistory(role: .from, isFrom: true, city: "Москва")
     @Previewable @State var path = NavigationPath()
-    StationSelectionView(city: "Москва", isFrom: true, path: $path)
+    StationSelectionView(city: "Москва", isFrom: true, path: $path, selectionHistory: $history)
 }

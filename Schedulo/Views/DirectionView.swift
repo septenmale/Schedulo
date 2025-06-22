@@ -7,18 +7,16 @@
 
 import SwiftUI
 
-enum Route: Hashable {
-    case citySelection(isFrom: Bool)
-    case stationSelection(isFrom: Bool, city: String)
-}
-
-// Стоит так же создать структуру для передачи данных. Откуда/куда станция/город
-
 struct DirectionView: View {
-    // Возможно текст в кнопках стоит сделать State чтобы изменения оказывались в нем после флоу выбора станции.
     
     /// массив в котором хранятся значения какой экран показывать
     @State private var path = NavigationPath()
+    
+    /// Переменная для хранения истории выборов для "Откуда" флоу
+    @State private var fromHistory = SelectionHistory(role: .from)
+    
+    /// Переменная для хранения истории выборов для "Куда" флоу
+    @State private var toHistory = SelectionHistory(role: .to)
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -29,30 +27,41 @@ struct DirectionView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
                         Button {
-                            path.append(Route.citySelection(isFrom: true))
+                            path.append(SelectionHistory(role: .from, isFrom: true))
+                            fromHistory.isFrom = true
                         } label: {
                             HStack {
-                                // Text must be changed by station name after selection
-                                Text("From")
-                                    .foregroundStyle(Color.appGray)
-                                    .font(.system(size: 17, weight: .regular))
+                                if fromHistory.city != nil {
+                                    Text(fromHistory.giveString())
+                                        .foregroundStyle(Color.appBlack)
+                                        .font(.system(size: 17, weight: .regular))
+                                } else {
+                                    // можно сократить оставив лишь один модификатор для шрифта меняя значение через colescing
+                                    Text(fromHistory.giveString())
+                                        .foregroundStyle(Color.appGray)
+                                        .font(.system(size: 17, weight: .regular))
+                                }
                                 Spacer()
                             }
                         }
                         Spacer()
-                        //Передать выбранный город
                         Button {
-                            path.append(Route.citySelection(isFrom: false))
+                            path.append(SelectionHistory(role: .to, isFrom: false))
+                            fromHistory.isFrom = false
                         } label: {
                             HStack {
-                                // Text must be changed by station name after selection
-                                Text("To")
-                                    .foregroundStyle(Color.appGray)
-                                    .font(.system(size: 17, weight: .regular))
+                                if toHistory.city != nil {
+                                    Text(toHistory.giveString())
+                                        .foregroundStyle(Color.appBlack)
+                                        .font(.system(size: 17, weight: .regular))
+                                } else {
+                                    Text(toHistory.giveString())
+                                        .foregroundStyle(Color.appGray)
+                                        .font(.system(size: 17, weight: .regular))
+                                }
                                 Spacer()
                             }
                         }
-                        
                     }
                     .padding()
                     .frame(width: 259, height: 96)
@@ -61,9 +70,11 @@ struct DirectionView: View {
                             .fill(Color.white)
                     )
                     Spacer()
-                    // Кнопка вместе картинки
                     Button {
                         // Reverse elements
+                        let x = fromHistory
+                        fromHistory = toHistory
+                        toHistory = x
                     } label: {
                         Image(.reverseButton)
                             .frame(width: 36, height: 36)
@@ -74,15 +85,25 @@ struct DirectionView: View {
                 
             }
             .offset(y: -120)
-            .navigationDestination(for: Route.self) { route in
-                switch route {
-                case .citySelection(let isFrom):
-                    CitySelectionView(path: $path, isFrom: isFrom)
-                case .stationSelection(let isFrom, let city):
-                    StationSelectionView(city: city, isFrom: isFrom, path: $path)
+            .navigationDestination(for: SelectionHistory.self) { step in
+                //TODO: Убрать форсы
+                if step.city == nil {
+                    CitySelectionView(
+                        path: $path,
+                        // достаточно будет прокидывать только role (step.role == .from ?)
+                        selectionHistory: step.isFrom! ? $fromHistory : $toHistory,
+                        isFrom: step.isFrom!
+                    )
+                }
+                else {
+                    StationSelectionView(
+                        city: step.city!,
+                        isFrom: step.isFrom!,
+                        path: $path,
+                        selectionHistory: step.isFrom! ? $fromHistory : $toHistory
+                    )
                 }
             }
-            
         }
     }
 }
