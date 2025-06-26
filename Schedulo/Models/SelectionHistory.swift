@@ -13,7 +13,7 @@ enum DirectionRole: String {
 
 /// Хранит историю выбора станции. Используется так же как тип данных для навигации
 struct SelectionHistory: Hashable {
-    var role: DirectionRole
+    let role: DirectionRole
     var city: String? = nil
     var station: String? = nil
     
