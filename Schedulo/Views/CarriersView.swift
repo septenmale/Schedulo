@@ -9,10 +9,6 @@ import SwiftUI
 
 // Переименовать файл, но вызывает ошибку
 struct CarriersView: View {
-    
-    //TODO: Сюда нужно передать from/to город/станция с пред экрана
-//    @Binding var fromHistory: SelectionHistory
-//    @Binding var toHistory: SelectionHistory
     var routeInfo: RouteInfo
     
     //TODO: Убрать в ViewModel
@@ -28,14 +24,17 @@ struct CarriersView: View {
     var body: some View {
         VStack() {
             Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.appBlackDay)
-                .padding()
+                .titleStyle()
             
-        // Как я понял при нажатии на карточку переход на инфо о первозчике
-            List(listOfCarriers) { card in
-                CarrierCellView(carrierInfo: card)
-                    .listRowSeparator(.hidden)
+            // Как я понял при нажатии на карточку переход на инфо о первозчике
+            NavigationLink {
+                CarrierCard()
+            }
+            label: {
+                List(listOfCarriers) { card in
+                    CarrierCellView(carrierInfo: card)
+                        .listRowSeparator(.hidden)
+                }
             }
             .listStyle(.plain)
             .scrollIndicators(.hidden)
@@ -43,13 +42,10 @@ struct CarriersView: View {
                 NavigationLink {
                     RouteFiltrationView(routeInfo: routeInfo)
                 } label: {
-                    //TODO: изменить key
+                    //TODO: изменить key, кривая кнопка
                     Text("Уточнить время")
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundStyle(Color.appWhite)
                         .frame(width: 343, height: 60)
-                        .background(Color.appBlue)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .buttonStyle()
                 }
             }
         }
@@ -60,8 +56,6 @@ struct CarriersView: View {
 }
 
 #Preview {
-//    @Previewable @State var fromHistory = SelectionHistory(role: .from, city: "Москва", station: "Ярославский вокзал")
-//    @Previewable @State var toHistory = SelectionHistory(role: .from, city: "Санкт Петербург", station: "Балтийский вокзал")
     let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
     CarriersView(routeInfo: info)
 }

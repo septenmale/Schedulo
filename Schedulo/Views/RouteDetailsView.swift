@@ -19,35 +19,33 @@ struct RouteDetailsView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
-            //TODO: Можно в экстеншн
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.appBlackDay)
-                .padding()
+                .titleStyle()
             // Данный экземпляр в будущем будем получать из VM. По примеру из CarriersView + фильтр
+            //TODO: Сделать Link
             if haveResults {
-                CarrierCellView(carrierInfo: CarrierCardInfo(
-                    name: "РЖД",
-                    date: "14 января",
-                    departureTime: "22:30",
-                    arrivalTime: "08:15",
-                    time: "20 часов",
-                    shouldTransfer: true)
-                )
-                .padding(.horizontal)
+                NavigationLink {
+                    CarrierCard()
+                }
+                label: {
+                    CarrierCellView(carrierInfo: CarrierCardInfo(
+                        name: "РЖД",
+                        date: "14 января",
+                        departureTime: "22:30",
+                        arrivalTime: "08:15",
+                        time: "20 часов",
+                        shouldTransfer: true)
+                    )
+                    .padding(.horizontal)
+                }
             }
-            
-            
         }
         .padding()
         Spacer()
         if !haveResults {
-            //TODO: экстеншн
             Text("Вариантов нет")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.appBlackDay)
+                .titleStyle()
         }
         Spacer()
-        
         
         // Узнать что делает кнопка
         NavigationLink {
@@ -55,15 +53,12 @@ struct RouteDetailsView: View {
         } label: {
             //TODO: изменить key
             Text("Уточнить время")
-                .font(.system(size: 17, weight: .bold))
-                .foregroundStyle(Color.appWhite)
                 .frame(width: 343, height: 60)
-                .background(Color.appBlue)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .buttonStyle()
         }
         .padding()
+        .toolbarRole(.editor)
     }
-    
 }
 
 #Preview {

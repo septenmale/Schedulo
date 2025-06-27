@@ -90,8 +90,6 @@ struct DirectionView: View {
                 }
                 if shouldShowButton {
                     
-                    // Тут через NavLink Описываю переход на след экран CarriersView
-                    // Туда передаю данные через RouteInfo
                     //TODO: Разобраться с nil
                     NavigationLink {
                         CarriersView(routeInfo: RouteInfo(
@@ -102,11 +100,8 @@ struct DirectionView: View {
                         )
                     } label: {
                         Text("Найти") // изменить key чтобы не было конфликтов
-                            .font(.system(size: 17, weight: .bold))
-                            .foregroundStyle(Color.appWhite)
                             .frame(width: 150, height: 60)
-                            .background(Color.appBlue)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .buttonStyle()
                     }
                 }
             }

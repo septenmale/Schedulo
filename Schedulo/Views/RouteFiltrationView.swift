@@ -33,6 +33,7 @@ struct FilterState {
 struct RouteFiltrationView: View {
     @State private var selectedDepartureTime: Set<DepartureTime> = []
     @State private var selectedTransferFilter: TransferFilter? = nil
+    
     /// Передает инфо о маршруте. Откуда/куда, город/станция
     var routeInfo: RouteInfo
     
@@ -40,14 +41,10 @@ struct RouteFiltrationView: View {
         return !selectedDepartureTime.isEmpty && selectedTransferFilter != nil
     }
     
-    //TODO: Найти способ хранить состоянии кнопки, менять изображение. Если все выбрано показать кнопку
     var body: some View {
         VStack(alignment: .leading) {
             Text("Время отправления")
-            //TODO: Вынести настройку заголовка в Extension
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.appBlackDay)
-                .padding()
+                .titleStyle()
             ForEach(DepartureTime.allCases, id: \.self) { time in
                 HStack {
                     Text(time.rawValue)
@@ -59,19 +56,14 @@ struct RouteFiltrationView: View {
                             selectedDepartureTime.insert(time)
                         }
                     } label: {
-                        Image(systemName: selectedDepartureTime.contains(time) ?
-                              //TODO: Изменить картинки
-                              "checkmark.square" : "square")
-                        .font(.system(size: 24))
+                        Image(selectedDepartureTime.contains(time) ? .squareCheckmark : .square)
+                            .frame(width: 24, height: 24)
                     }
                 }
             }
             .padding()
             Text("Показывать варианты с пересадками")
-            //TODO: Вынести настройку заголовка в Extension
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.appBlackDay)
-                .padding()
+                .titleStyle()
             ForEach(TransferFilter.allCases, id: \.self) { option in
                 HStack {
                     Text(option.rawValue)
@@ -79,10 +71,8 @@ struct RouteFiltrationView: View {
                     Button {
                         selectedTransferFilter = option
                     } label: {
-                        Image(systemName: selectedTransferFilter == option ?
-                              //TODO: Изменить картинки
-                              "checkmark.circle" : "circle")
-                        .font(.system(size: 24))
+                        Image(selectedTransferFilter == option ? .circleCheckmark : .circle)
+                            .frame(width: 24, height: 24)
                     }
                     
                 }
@@ -101,11 +91,8 @@ struct RouteFiltrationView: View {
             } label: {
                 //TODO: изменить key
                 Text("Уточнить время")
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundStyle(Color.appWhite)
                     .frame(width: 343, height: 60)
-                    .background(Color.appBlue)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .buttonStyle()
             }
             .padding()
         }

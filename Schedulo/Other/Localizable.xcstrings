@@ -11,6 +11,9 @@
         }
       }
     },
+    "+7 (904) 329-27-71" : {
+
+    },
     "City selection" : {
       "comment" : "Title for city selection screen",
       "localizations" : {
@@ -27,6 +30,9 @@
           }
         }
       }
+    },
+    "E-mail" : {
+
     },
     "From" : {
       "comment" : "Placeholder for main screen button",
@@ -45,6 +51,9 @@
           }
         }
       }
+    },
+    "i.lozgkina@yandex.ru" : {
+
     },
     "Search" : {
       "comment" : "Placeholder for search bar",
@@ -97,13 +106,22 @@
     "Время отправления" : {
 
     },
+    "Информация о перевозчике" : {
+
+    },
     "Найти" : {
+
+    },
+    "ОАО \"РЖД\"" : {
 
     },
     "Показывать варианты с пересадками" : {
 
     },
     "С пересадкой в Костроме" : {
+
+    },
+    "Телефон" : {
 
     },
     "Тута будут настройки" : {
