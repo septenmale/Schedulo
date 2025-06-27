@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+// Переименовать файл, но вызывает ошибку
 struct CarriersView: View {
-    @Binding var fromHistory: SelectionHistory
-    @Binding var toHistory: SelectionHistory
+    
+    //TODO: Сюда нужно передать from/to город/станция с пред экрана
+//    @Binding var fromHistory: SelectionHistory
+//    @Binding var toHistory: SelectionHistory
+    var routeInfo: RouteInfo
     
     //TODO: Убрать в ViewModel
     /// Моки для отображения списка перевозчиков
@@ -23,7 +27,7 @@ struct CarriersView: View {
     
     var body: some View {
         VStack() {
-            Text("\(fromHistory.city ?? "") (\(fromHistory.station ?? "")) -> \(toHistory.city ?? "") (\(toHistory.station ?? ""))")
+            Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundStyle(Color.appBlackDay)
                 .padding()
@@ -36,8 +40,8 @@ struct CarriersView: View {
             .listStyle(.plain)
             .scrollIndicators(.hidden)
             .safeAreaInset(edge: .bottom) {
-                Button {
-                    // action
+                NavigationLink {
+                    RouteFiltrationView(routeInfo: routeInfo)
                 } label: {
                     //TODO: изменить key
                     Text("Уточнить время")
@@ -47,8 +51,6 @@ struct CarriersView: View {
                         .background(Color.appBlue)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
-                
-                // describe navigational destination
             }
         }
         .padding()
@@ -58,7 +60,8 @@ struct CarriersView: View {
 }
 
 #Preview {
-    @Previewable @State var fromHistory = SelectionHistory(role: .from, city: "Москва", station: "Ярославский вокзал")
-    @Previewable @State var toHistory = SelectionHistory(role: .from, city: "Санкт Петербург", station: "Балтийский вокзал")
-    CarriersView(fromHistory: $fromHistory, toHistory: $toHistory)
+//    @Previewable @State var fromHistory = SelectionHistory(role: .from, city: "Москва", station: "Ярославский вокзал")
+//    @Previewable @State var toHistory = SelectionHistory(role: .from, city: "Санкт Петербург", station: "Балтийский вокзал")
+    let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
+    CarriersView(routeInfo: info)
 }

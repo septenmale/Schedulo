@@ -33,12 +33,11 @@ struct CarrierCellView: View {
             VStack {
                 
                 // Отвечает за верхнюю половину
-                HStack(alignment: .top) {
+                HStack(alignment: .center) {
                     Image(.rgdCarrierIcon)
                         .frame(width: 38, height: 38)
                     
                     // VStack название пересадка(скрыть, если нету)
-                    //TODO: Поправить верстку, если нету пересадки
                     VStack(alignment: .leading) {
                         Text(carrierInfo.name)
                             .font(.system(size: 17, weight: .regular))

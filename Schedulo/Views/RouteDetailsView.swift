@@ -1,0 +1,73 @@
+//
+//  RouteDetailsView.swift
+//  Schedulo
+//
+//  Created by Viktor Zavhorodnii on 27/06/2025.
+//
+
+import SwiftUI
+
+struct RouteDetailsView: View {
+    let filter: FilterState
+    var routeInfo: RouteInfo
+    
+    // Данная переменная прототип фильтрации. Если подходящий маршрутов нет - показываем заглушку
+    var haveResults: Bool {
+        true
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
+            //TODO: Можно в экстеншн
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(Color.appBlackDay)
+                .padding()
+            // Данный экземпляр в будущем будем получать из VM. По примеру из CarriersView + фильтр
+            if haveResults {
+                CarrierCellView(carrierInfo: CarrierCardInfo(
+                    name: "РЖД",
+                    date: "14 января",
+                    departureTime: "22:30",
+                    arrivalTime: "08:15",
+                    time: "20 часов",
+                    shouldTransfer: true)
+                )
+                .padding(.horizontal)
+            }
+            
+            
+        }
+        .padding()
+        Spacer()
+        if !haveResults {
+            //TODO: экстеншн
+            Text("Вариантов нет")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(Color.appBlackDay)
+        }
+        Spacer()
+        
+        
+        // Узнать что делает кнопка
+        NavigationLink {
+            // ?
+        } label: {
+            //TODO: изменить key
+            Text("Уточнить время")
+                .font(.system(size: 17, weight: .bold))
+                .foregroundStyle(Color.appWhite)
+                .frame(width: 343, height: 60)
+                .background(Color.appBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+        .padding()
+    }
+    
+}
+
+#Preview {
+    let filter = FilterState(times: [.evening, .night], transfer: .no)
+    let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
+    RouteDetailsView(filter: filter, routeInfo: info)
+}

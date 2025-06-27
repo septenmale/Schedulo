@@ -24,7 +24,7 @@ struct DirectionView: View {
     }
     
     var body: some View {
-        NavigationStack(path: $path) { 
+        NavigationStack(path: $path) {
             VStack(spacing: 16) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
@@ -61,6 +61,7 @@ struct DirectionView: View {
                                 .fill(Color.white)
                         )
                         Spacer()
+                        //TODO: Что то не так с кнопкой не дает вводить после свапа
                         Button {
                             let x = fromHistory
                             fromHistory = toHistory
@@ -88,8 +89,17 @@ struct DirectionView: View {
                     }
                 }
                 if shouldShowButton {
-                    Button {
-                        showCarriers = true
+                    
+                    // Тут через NavLink Описываю переход на след экран CarriersView
+                    // Туда передаю данные через RouteInfo
+                    //TODO: Разобраться с nil
+                    NavigationLink {
+                        CarriersView(routeInfo: RouteInfo(
+                            fromCity: fromHistory.city ?? "",
+                            toCity: toHistory.city ?? "",
+                            fromStation: fromHistory.station ?? "",
+                            toStation: toHistory.station ?? "")
+                        )
                     } label: {
                         Text("Найти") // изменить key чтобы не было конфликтов
                             .font(.system(size: 17, weight: .bold))
@@ -97,9 +107,6 @@ struct DirectionView: View {
                             .frame(width: 150, height: 60)
                             .background(Color.appBlue)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
-                    }
-                    .navigationDestination(isPresented: $showCarriers) {
-                        CarriersView(fromHistory: $fromHistory, toHistory: $toHistory)
                     }
                 }
             }
