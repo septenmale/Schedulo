@@ -61,7 +61,7 @@ struct DirectionView: View {
                                 .fill(Color.white)
                         )
                         Spacer()
-                        //TODO: Что то не так с кнопкой не дает вводить после свапа
+                        //TODO: Исправить проблему когда после свапа вместо выбранного города/станции показывается заглушка
                         Button {
                             let x = fromHistory
                             fromHistory = toHistory
@@ -74,6 +74,7 @@ struct DirectionView: View {
                     .padding()
                     .frame(width: 343, height: 128)
                 }
+                //TODO: Стоит поправить ведь, если выбрать и город и станцию и кликнуть еще раз то перекинет сразу на станцию 
                 .navigationDestination(for: SelectionHistory.self) { step in
                     if step.city == nil {
                         CitySelectionView(
@@ -99,7 +100,7 @@ struct DirectionView: View {
                             toStation: toHistory.station ?? "")
                         )
                     } label: {
-                        Text("Найти") // изменить key чтобы не было конфликтов
+                        Text("SearchButton")
                             .frame(width: 150, height: 60)
                             .buttonStyle()
                     }

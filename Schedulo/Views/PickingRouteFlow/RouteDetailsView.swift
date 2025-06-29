@@ -11,7 +11,7 @@ struct RouteDetailsView: View {
     let filter: FilterState
     var routeInfo: RouteInfo
     
-    // Данная переменная прототип фильтрации. Если подходящий маршрутов нет - показываем заглушку
+    /// Данная переменная прототип фильтрации. Если подходящий маршрутов нет - показываем заглушку
     var haveResults: Bool {
         true
     }
@@ -20,8 +20,8 @@ struct RouteDetailsView: View {
         VStack(alignment: .leading) {
             Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
                 .titleStyle()
+            
             // Данный экземпляр в будущем будем получать из VM. По примеру из CarriersView + фильтр
-            //TODO: Сделать Link
             if haveResults {
                 NavigationLink {
                     CarrierCard()
@@ -42,17 +42,16 @@ struct RouteDetailsView: View {
         .padding()
         Spacer()
         if !haveResults {
-            Text("Вариантов нет")
+            Text("NoOptionsString")
                 .titleStyle()
         }
         Spacer()
         
         // Узнать что делает кнопка
         NavigationLink {
-            // ?
+            Text("???")
         } label: {
-            //TODO: изменить key
-            Text("Уточнить время")
+            Text("CheckTimeButton")
                 .frame(width: 343, height: 60)
                 .buttonStyle()
         }

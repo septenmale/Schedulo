@@ -10,6 +10,7 @@ import SwiftUI
 
 //TODO: Убрать из View
 enum DepartureTime: String, CaseIterable {
+    //TODO: Разобрать с локализацией
     case morning = "Утро 06:00 - 12:00"
     case day = "День 12:00 - 18:00"
     case evening = "Вечер 18:00 - 00:00"
@@ -18,6 +19,7 @@ enum DepartureTime: String, CaseIterable {
 
 //TODO: Убрать из View
 enum TransferFilter: String, CaseIterable {
+    //TODO: Разобрать с локализацией
     case yes = "Да"
     case no = "Нет"
 }
@@ -43,7 +45,7 @@ struct RouteFiltrationView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Время отправления")
+            Text("DepartureTimeTitle")
                 .titleStyle()
             ForEach(DepartureTime.allCases, id: \.self) { time in
                 HStack {
@@ -62,7 +64,7 @@ struct RouteFiltrationView: View {
                 }
             }
             .padding()
-            Text("Показывать варианты с пересадками")
+            Text("ShowTransferOptionsTitle")
                 .titleStyle()
             ForEach(TransferFilter.allCases, id: \.self) { option in
                 HStack {
@@ -89,8 +91,7 @@ struct RouteFiltrationView: View {
                     routeInfo: routeInfo
                 )
             } label: {
-                //TODO: изменить key
-                Text("Уточнить время")
+                Text("ApplyButtonTitle")
                     .frame(width: 343, height: 60)
                     .buttonStyle()
             }

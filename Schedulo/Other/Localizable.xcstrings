@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "???" : {
+      "shouldTranslate" : false
+    },
     "%@ (%@) -> %@ (%@)" : {
       "localizations" : {
         "en" : {
@@ -9,10 +12,62 @@
             "value" : "%1$@ (%2$@) -> %3$@ (%4$@)"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "+7 (904) 329-27-71" : {
-
+      "shouldTranslate" : false
+    },
+    "ApplyButtonTitle" : {
+      "comment" : "Title for a Apply button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Применить"
+          }
+        }
+      }
+    },
+    "CarrierInformationString" : {
+      "comment" : "Carrier information string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carrier information"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Информация о перевозчике"
+          }
+        }
+      }
+    },
+    "CheckTimeButton" : {
+      "comment" : "Title for a Check Time button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check time"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уточнить время"
+          }
+        }
+      }
     },
     "City selection" : {
       "comment" : "Title for city selection screen",
@@ -31,29 +86,79 @@
         }
       }
     },
-    "E-mail" : {
-
-    },
-    "From" : {
-      "comment" : "Placeholder for main screen button",
-      "extractionState" : "stale",
+    "DepartureTimeTitle" : {
+      "comment" : "Departure Time title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "From"
+            "value" : "Departure time"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откуда"
+            "value" : "Время отправления"
           }
         }
       }
     },
+    "E-mail" : {
+      "shouldTranslate" : false
+    },
     "i.lozgkina@yandex.ru" : {
-
+      "shouldTranslate" : false
+    },
+    "NoInternetTitle" : {
+      "comment" : "No Internet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No internet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет интернета"
+          }
+        }
+      }
+    },
+    "NoOptionsString" : {
+      "comment" : "No options string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No options"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вариантов нет"
+          }
+        }
+      }
+    },
+    "PhoneString" : {
+      "comment" : "Phone string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Телефон"
+          }
+        }
+      }
     },
     "Search" : {
       "comment" : "Placeholder for search bar",
@@ -72,6 +177,57 @@
         }
       }
     },
+    "SearchButton" : {
+      "comment" : "Title for a Search button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найти"
+          }
+        }
+      }
+    },
+    "ServerErrorTitle" : {
+      "comment" : "Server Error title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server error"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка сервера"
+          }
+        }
+      }
+    },
+    "ShowTransferOptionsTitle" : {
+      "comment" : "Show Transfer Options title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show transfer options"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать варианты с пересадками"
+          }
+        }
+      }
+    },
     "Station selection" : {
       "localizations" : {
         "ru" : {
@@ -82,53 +238,14 @@
         }
       }
     },
-    "To" : {
-      "comment" : "Placeholder for main screen button",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Куда"
-          }
-        }
-      }
-    },
-    "Вариантов нет" : {
-
-    },
-    "Время отправления" : {
-
-    },
-    "Информация о перевозчике" : {
-
-    },
-    "Найти" : {
-
-    },
     "ОАО \"РЖД\"" : {
-
-    },
-    "Показывать варианты с пересадками" : {
-
+      "shouldTranslate" : false
     },
     "С пересадкой в Костроме" : {
-
-    },
-    "Телефон" : {
-
+      "shouldTranslate" : false
     },
     "Тута будут настройки" : {
-
-    },
-    "Уточнить время" : {
-
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"

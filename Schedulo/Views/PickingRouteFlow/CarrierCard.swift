@@ -22,7 +22,7 @@ struct CarrierCard: View {
                     .foregroundStyle(.appBlue)
             }
             VStack(alignment: .leading, spacing: 4) {
-                Text("Телефон")
+                Text("PhoneString")
                     .font(.system(size: 16, weight: .regular))
                 Text("+7 (904) 329-27-71")
                     .font(.system(size: 16, weight: .regular))
@@ -32,7 +32,7 @@ struct CarrierCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         Spacer()
-            .navigationTitle(Text("Информация о перевозчике"))
+            .navigationTitle(Text("CarrierInformationString"))
             .toolbarRole(.editor)
     }
 }

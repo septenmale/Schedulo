@@ -25,8 +25,6 @@ struct CarriersView: View {
         VStack() {
             Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
                 .titleStyle()
-            
-            // Как я понял при нажатии на карточку переход на инфо о первозчике
             NavigationLink {
                 CarrierCard()
             }
@@ -42,8 +40,7 @@ struct CarriersView: View {
                 NavigationLink {
                     RouteFiltrationView(routeInfo: routeInfo)
                 } label: {
-                    //TODO: изменить key, кривая кнопка
-                    Text("Уточнить время")
+                    Text("CheckTimeButton")
                         .frame(width: 343, height: 60)
                         .buttonStyle()
                 }

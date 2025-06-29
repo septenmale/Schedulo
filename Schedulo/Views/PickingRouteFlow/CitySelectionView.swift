@@ -37,9 +37,9 @@ struct CitySelectionView: View {
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
         }
         .navigationTitle(Text("City selection"))
-        //TODO: Кажись нужно настроить шрифт заголовка. По возможности вынести в расширение
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
+        //TODO: Проверить почему при возврате назад TabBar появляется после задержки
         .toolbar(.hidden, for: .tabBar)
     }
     
