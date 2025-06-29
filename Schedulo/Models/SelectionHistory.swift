@@ -21,10 +21,12 @@ struct SelectionHistory: Hashable {
     /// Форматирует данные для отображения на главном экране
     /// - Returns: Строка для отображения результата выбора
     func giveString() -> String {
-        
-        guard let city = city,
-              let station = station else { return role.rawValue }
-        
-        return "\(city)(\(station))"
+        if let city = city, let station = station {
+            return "\(city) (\(station))"
+        } else if let city = city {
+            return city
+        } else {
+            return role.rawValue
+        }
     }
 }

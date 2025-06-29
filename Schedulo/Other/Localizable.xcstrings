@@ -109,6 +109,23 @@
     "i.lozgkina@yandex.ru" : {
       "shouldTranslate" : false
     },
+    "NoCityTitle" : {
+      "comment" : "Shown when no city found on CitySelectionView",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City not found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Город не найден"
+          }
+        }
+      }
+    },
     "NoInternetTitle" : {
       "comment" : "No Internet title",
       "localizations" : {
@@ -139,6 +156,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вариантов нет"
+          }
+        }
+      }
+    },
+    "NoStationTitle" : {
+      "comment" : "Shown when no city found on StationSelectionView",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station not found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станция не найдена"
           }
         }
       }

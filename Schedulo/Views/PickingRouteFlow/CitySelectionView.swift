@@ -8,13 +8,27 @@
 import SwiftUI
 
 struct CitySelectionView: View {
+    
     //TODO: Вынести из View
     let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
+    
     @State private var searchText = ""
     @Binding var path: NavigationPath
     @Binding var selectionHistory: SelectionHistory
+    var shouldShowNoResults: Bool {
+        searchResults.isEmpty
+    }
     
     var body: some View {
+        
+        if shouldShowNoResults {
+            VStack {
+                Spacer()
+                Text("NoCityTitle")
+                    .titleStyle()
+            }
+        }
+        
         ScrollView(showsIndicators: false) {
             LazyVStack {
                 ForEach(searchResults, id: \.self) { cityName in
@@ -31,15 +45,17 @@ struct CitySelectionView: View {
                         }
                         .padding()
                     }
-                    
                 }
             }
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
+            .searchable(
+                text: $searchText,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: Text("Search")
+            )
         }
         .navigationTitle(Text("City selection"))
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
-        //TODO: Проверить почему при возврате назад TabBar появляется после задержки
         .toolbar(.hidden, for: .tabBar)
     }
     
@@ -51,9 +67,6 @@ struct CitySelectionView: View {
         }
     }
 }
-
-//TODO: Добавить город не найден в случае если не совпадает с поиском.
-// Поправить TabBar при возврате на главный экран ( появляется обратно с задержкой )
 
 #Preview {
     @Previewable @State var history = SelectionHistory(role: .from)

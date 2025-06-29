@@ -20,7 +20,7 @@ struct DirectionView: View {
     @State private var showCarriers = false
     
     var shouldShowButton: Bool {
-        fromHistory.city != nil && toHistory.city != nil
+        fromHistory.station != nil && toHistory.station != nil
     }
     
     var body: some View {
@@ -61,11 +61,15 @@ struct DirectionView: View {
                                 .fill(Color.white)
                         )
                         Spacer()
-                        //TODO: Исправить проблему когда после свапа вместо выбранного города/станции показывается заглушка
                         Button {
-                            let x = fromHistory
-                            fromHistory = toHistory
-                            toHistory = x
+                            let tempCity = fromHistory.city
+                            let tempStation = fromHistory.station
+                            
+                            fromHistory.city = toHistory.city
+                            fromHistory.station = toHistory.station
+                            
+                            toHistory.city = tempCity
+                            toHistory.station = tempStation
                         } label: {
                             Image(.reverseButton)
                                 .frame(width: 36, height: 36)
@@ -74,24 +78,30 @@ struct DirectionView: View {
                     .padding()
                     .frame(width: 343, height: 128)
                 }
-                //TODO: Стоит поправить ведь, если выбрать и город и станцию и кликнуть еще раз то перекинет сразу на станцию 
+                
+                // Тут мне кажется намудрил с if else. Возможно можно проще
                 .navigationDestination(for: SelectionHistory.self) { step in
                     if step.city == nil {
                         CitySelectionView(
                             path: $path,
                             selectionHistory: step.role == .from ? $fromHistory : $toHistory,
                         )
-                    }
-                    else {
+                    } else if step.station == nil {
                         StationSelectionView(
                             path: $path,
                             selectionHistory: step.role == .from ? $fromHistory : $toHistory
                         )
+                    } else {
+                        CitySelectionView(
+                            path: $path,
+                            selectionHistory: step.role == .from ? $fromHistory : $toHistory,
+                        )
                     }
                 }
+                
                 if shouldShowButton {
                     
-                    //TODO: Разобраться с nil
+                    // Разобраться с nil
                     NavigationLink {
                         CarriersView(routeInfo: RouteInfo(
                             fromCity: fromHistory.city ?? "",
@@ -105,6 +115,7 @@ struct DirectionView: View {
                             .buttonStyle()
                     }
                 }
+                
             }
             .offset(y: -120)
         }
