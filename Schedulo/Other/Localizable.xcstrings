@@ -1,0 +1,252 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "???" : {
+      "shouldTranslate" : false
+    },
+    "%@ (%@) -> %@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@) -> %3$@ (%4$@)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "+7 (904) 329-27-71" : {
+      "shouldTranslate" : false
+    },
+    "ApplyButtonTitle" : {
+      "comment" : "Title for a Apply button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Применить"
+          }
+        }
+      }
+    },
+    "CarrierInformationString" : {
+      "comment" : "Carrier information string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carrier information"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Информация о перевозчике"
+          }
+        }
+      }
+    },
+    "CheckTimeButton" : {
+      "comment" : "Title for a Check Time button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check time"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уточнить время"
+          }
+        }
+      }
+    },
+    "City selection" : {
+      "comment" : "Title for city selection screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City selection"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбор города"
+          }
+        }
+      }
+    },
+    "DepartureTimeTitle" : {
+      "comment" : "Departure Time title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Departure time"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время отправления"
+          }
+        }
+      }
+    },
+    "E-mail" : {
+      "shouldTranslate" : false
+    },
+    "i.lozgkina@yandex.ru" : {
+      "shouldTranslate" : false
+    },
+    "NoCityTitle" : {
+      "comment" : "Shown when no city found on CitySelectionView",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City not found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Город не найден"
+          }
+        }
+      }
+    },
+    "NoOptionsString" : {
+      "comment" : "No options string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No options"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вариантов нет"
+          }
+        }
+      }
+    },
+    "NoStationTitle" : {
+      "comment" : "Shown when no city found on StationSelectionView",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station not found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станция не найдена"
+          }
+        }
+      }
+    },
+    "PhoneString" : {
+      "comment" : "Phone string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Телефон"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "comment" : "Placeholder for search bar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите запрос"
+          }
+        }
+      }
+    },
+    "SearchButton" : {
+      "comment" : "Title for a Search button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найти"
+          }
+        }
+      }
+    },
+    "ShowTransferOptionsTitle" : {
+      "comment" : "Show Transfer Options title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show transfer options"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать варианты с пересадками"
+          }
+        }
+      }
+    },
+    "Station selection" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбор станции"
+          }
+        }
+      }
+    },
+    "ОАО \"РЖД\"" : {
+      "shouldTranslate" : false
+    },
+    "С пересадкой в Костроме" : {
+      "shouldTranslate" : false
+    },
+    "Тута будут настройки" : {
+      "shouldTranslate" : false
+    }
+  },
+  "version" : "1.0"
+}
