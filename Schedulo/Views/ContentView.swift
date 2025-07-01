@@ -8,20 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var error: ErrorType? = nil
+    
     var body: some View {
-        TabView {
-            DirectionView()
-                .tabItem {
-                    Image(.directionIcon)
-                        .renderingMode(.template)
-                }
-            SettingsView()
-                .tabItem {
-                    Image(.settingsIcon)
-                        .renderingMode(.template)
-                }
+        
+        if let error {
+            ErrorView(
+                imageName: error.imageName,
+                title: error.title
+            )
+        } else {
+            TabView {
+                DirectionView()
+                    .tabItem {
+                        Image(.directionIcon)
+                            .renderingMode(.template)
+                    }
+                SettingsView()
+                    .tabItem {
+                        Image(.settingsIcon)
+                            .renderingMode(.template)
+                    }
+            }
+            .accentColor(.appBlackDay)
         }
-        .accentColor(.appBlackDay)
     }
 }
 

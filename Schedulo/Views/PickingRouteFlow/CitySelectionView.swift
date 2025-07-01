@@ -60,11 +60,7 @@ struct CitySelectionView: View {
     }
     
     var searchResults: [String] {
-        if searchText.isEmpty {
-            return cities
-        } else {
-            return cities.filter { $0.contains(searchText) }
-        }
+        searchText.isEmpty ? cities : cities.filter { $0.contains(searchText) }
     }
 }
 

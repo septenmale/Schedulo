@@ -126,23 +126,6 @@
         }
       }
     },
-    "NoInternetTitle" : {
-      "comment" : "No Internet title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No internet"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нет интернета"
-          }
-        }
-      }
-    },
     "NoOptionsString" : {
       "comment" : "No options string",
       "localizations" : {
@@ -224,23 +207,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Найти"
-          }
-        }
-      }
-    },
-    "ServerErrorTitle" : {
-      "comment" : "Server Error title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Server error"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ошибка сервера"
           }
         }
       }

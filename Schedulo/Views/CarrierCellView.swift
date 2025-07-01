@@ -28,16 +28,10 @@ struct CarrierCellView: View {
             RoundedRectangle(cornerRadius: 24)
                 .fill(Color.appLightGray)
                 .frame(width: 343, height: 104)
-            
-            // Самый главный, который соединит верхнюю и нижнюю половины
             VStack {
-                
-                // Отвечает за верхнюю половину
-                HStack(alignment: .center) {
+                HStack {
                     Image(.rgdCarrierIcon)
                         .frame(width: 38, height: 38)
-                    
-                    // VStack название пересадка(скрыть, если нету)
                     VStack(alignment: .leading) {
                         Text(carrierInfo.name)
                             .font(.system(size: 17, weight: .regular))
@@ -55,8 +49,6 @@ struct CarrierCellView: View {
                 }
                 .padding([.top, .leading], 14)
                 .padding(.trailing, 7)
-                
-                // Отвечает за нижнюю половину
                 HStack {
                     Text(carrierInfo.departureTime)
                         .font(.system(size: 17, weight: .regular))

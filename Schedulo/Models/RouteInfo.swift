@@ -6,8 +6,8 @@
 //
 
 struct RouteInfo: Hashable {
-    var fromCity: String
-    var toCity: String
-    var fromStation: String
-    var toStation: String
+    let fromCity: String
+    let toCity: String
+    let fromStation: String
+    let toStation: String
 }

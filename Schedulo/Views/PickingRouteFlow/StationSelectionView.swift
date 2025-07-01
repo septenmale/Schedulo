@@ -54,11 +54,7 @@ struct StationSelectionView: View {
     
     // Повторяется в двух View. Подумать над этим
     var searchResults: [String] {
-        if searchText.isEmpty {
-            return stations
-        } else {
-            return stations.filter { $0.contains(searchText) }
-        }
+        searchText.isEmpty ? stations : stations.filter { $0.contains(searchText) }
     }
 }
 
