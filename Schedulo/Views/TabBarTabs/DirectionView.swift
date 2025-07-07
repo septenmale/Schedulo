@@ -117,6 +117,7 @@ struct DirectionView: View {
                 }
                 
             }
+            //TODO: Добавить линию над TabBar
             .offset(y: -120)
         }
     }

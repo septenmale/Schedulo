@@ -9,6 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var error: ErrorType? = nil
+    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+    
+    var colorScheme: ColorScheme? {
+        switch selectedAppearance {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        case .system:
+            return nil
+        }
+    }
     
     var body: some View {
         
@@ -31,7 +43,9 @@ struct ContentView: View {
                     }
             }
             .accentColor(.appBlackDay)
+            .preferredColorScheme(colorScheme)
         }
+            
     }
 }
 

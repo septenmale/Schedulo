@@ -7,11 +7,62 @@
 
 import SwiftUI
 
+//TODO: Вынести в Model
+enum Appearance: String {
+    case system = "System"
+    case light = "Light"
+    case dark = "Dark"
+}
+
 struct SettingsView: View {
+    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+    @State private var isDarkThemeEnabled = false
+    
+    //TODO: Разобраться как работает
+    private var isDarkThemeBinding: Binding<Bool> {
+        Binding(
+            get: { selectedAppearance == .dark },
+            set: { newValue in
+                selectedAppearance = newValue ? .dark : .light
+            }
+        )
+    }
+    
     var body: some View {
-        Text("Тута будут настройки")
-            .padding()
-            .background(Color.gray.opacity(0.2))
+        NavigationStack {
+            VStack {
+                VStack {
+                    Toggle("Темная тема", isOn: isDarkThemeBinding)
+                        .padding(.bottom)
+                    NavigationLink {
+                        UserAgreementView()
+                    } label: {
+                        HStack {
+                            Text("Пользовательское соглашение")
+                            Spacer()
+                            Image(.chevronIcon)
+                        }
+                    }
+                }
+                .font(.system(size: 17, weight: .regular))
+                .foregroundStyle(.appBlackDay)
+                .padding(.init(top: 24, leading: 16, bottom: 0, trailing: 16))
+                
+                Spacer()
+                
+                VStack(spacing: 24) {
+                    VStack(spacing: 16 ) {
+                        Text("Приложение использует API «Яндекс.Расписания»")
+                        Text("Версия 1.0 (beta)")
+                    }
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.appBlackDay)
+                    
+                    Rectangle()
+                        .frame(height: 1)
+                }
+            }
+        }
     }
 }
 
