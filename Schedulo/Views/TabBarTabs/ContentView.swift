@@ -31,7 +31,9 @@ struct ContentView: View {
             )
         } else {
             TabView {
-                DirectionView()
+                NavigationStack {
+                    DirectionView()
+                }
                     .tabItem {
                         Image(.directionIcon)
                             .renderingMode(.template)

@@ -7,21 +7,15 @@
 
 import SwiftUI
 
-//TODO: Вынести в Model
-enum Appearance: String {
-    case system = "System"
-    case light = "Light"
-    case dark = "Dark"
-}
-
 struct SettingsView: View {
     @AppStorage("appearance") private var selectedAppearance: Appearance = .system
     @State private var isDarkThemeEnabled = false
     
-    //TODO: Разобраться как работает
     private var isDarkThemeBinding: Binding<Bool> {
         Binding(
+            // при отрисовке показывает включенным если выполняется проверка
             get: { selectedAppearance == .dark },
+            // когда значение меняется изменяет тему на темную, если включенный и наоборот
             set: { newValue in
                 selectedAppearance = newValue ? .dark : .light
             }
