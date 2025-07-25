@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-//TODO: Убрать в модель
-struct StoriesData: Identifiable {
-    var id = UUID()
-    
-    let sImage: String
-    let lImage: String
-    let isShown: Bool
-}
-
 struct StoriesPreview: View {
     let data: StoriesData
     
@@ -40,7 +31,6 @@ struct StoriesPreview: View {
         )
     }
 }
-
 
 #Preview {
     let data = StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false)

@@ -7,7 +7,23 @@
 
 import SwiftUI
 
+//TODO: Убрать в модель
+struct StoriesData: Identifiable {
+    var id = UUID()
+    let sImage: String
+    let lImage: String
+    let isShown: Bool
+}
+
+//TODO: Решить убирать в модели или оставить 
+/// Обертка над переменной типа Int в DirectionView чтобы работал fullScreenCover
+struct StoryIndex: Identifiable {
+    let id: Int
+}
+
 struct DirectionView: View {
+    
+    //TODO: Move to VM
     let stories: [StoriesData] = [
         StoriesData(sImage: "S-Story-1", lImage: "", isShown: false),
         StoriesData(sImage: "S-Story-2", lImage: "", isShown: false),
@@ -24,6 +40,7 @@ struct DirectionView: View {
     @State private var fromHistory = SelectionHistory(role: .from)
     @State private var toHistory = SelectionHistory(role: .to)
     @State private var showCarriers = false
+    @State private var selectedStoryIndex: StoryIndex? = nil
     
     var shouldShowButton: Bool {
         fromHistory.station != nil && toHistory.station != nil
@@ -34,9 +51,13 @@ struct DirectionView: View {
             // STORIES
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(stories) { story in
+                    ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
                         StoriesPreview(data: story)
+                            .onTapGesture {
+                                selectedStoryIndex = StoryIndex(id: index)
+                            }
                     }
+                    
                 }
                 .padding(16)
             }
@@ -139,6 +160,10 @@ struct DirectionView: View {
             Rectangle()
                 .frame(height: 1)
                 .padding(.top, 16)
+        }
+        
+        .fullScreenCover(item: $selectedStoryIndex) { storyIndex in
+            StoriesFullscreenView(index: storyIndex.id, data: stories)
         }
     }
 }
