@@ -15,7 +15,7 @@ struct StoriesData: Identifiable {
     let isShown: Bool
 }
 
-//TODO: Решить убирать в модели или оставить 
+//TODO: Решить убирать в модели или оставить
 /// Обертка над переменной типа Int в DirectionView чтобы работал fullScreenCover
 struct StoryIndex: Identifiable {
     let id: Int
@@ -25,15 +25,15 @@ struct DirectionView: View {
     
     //TODO: Move to VM
     let stories: [StoriesData] = [
-        StoriesData(sImage: "S-Story-1", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-2", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-3", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-4", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-5", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-6", lImage: "", isShown: true),
-        StoriesData(sImage: "S-Story-7", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-8", lImage: "", isShown: false),
-        StoriesData(sImage: "S-Story-9", lImage: "", isShown: false),
+        StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false),
+        StoriesData(sImage: "S-Story-2", lImage: "L-Story-2", isShown: false),
+        StoriesData(sImage: "S-Story-3", lImage: "L-Story-3", isShown: false),
+        StoriesData(sImage: "S-Story-4", lImage: "L-Story-4", isShown: false),
+        StoriesData(sImage: "S-Story-5", lImage: "L-Story-5", isShown: false),
+        StoriesData(sImage: "S-Story-6", lImage: "L-Story-6", isShown: true),
+        StoriesData(sImage: "S-Story-7", lImage: "L-Story-7", isShown: false),
+        StoriesData(sImage: "S-Story-8", lImage: "L-Story-8", isShown: false),
+        StoriesData(sImage: "S-Story-9", lImage: "L-Story-9", isShown: false),
     ]
     
     @State private var path = NavigationPath()

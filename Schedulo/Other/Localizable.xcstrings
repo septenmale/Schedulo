@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "???" : {
       "shouldTranslate" : false
     },
@@ -241,10 +244,13 @@
     "Text Text Text Text Text Text Text Text Text" : {
 
     },
-    "Версия 1.0 (beta)" : {
+    "Text Text Text Text Text Text Text Text Text Text" : {
 
     },
-    "Жопа полная а не спринт" : {
+    "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text" : {
+
+    },
+    "Версия 1.0 (beta)" : {
 
     },
     "ОАО \"РЖД\"" : {
