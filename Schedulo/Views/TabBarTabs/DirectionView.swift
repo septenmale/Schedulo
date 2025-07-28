@@ -163,7 +163,7 @@ struct DirectionView: View {
         }
         
         .fullScreenCover(item: $selectedStoryIndex) { storyIndex in
-            StoriesFullscreenView(index: storyIndex.id, data: stories)
+            StoriesFullscreenView(data: stories, initialStoryIndex: storyIndex.id)
         }
     }
 }
