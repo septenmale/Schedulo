@@ -12,7 +12,7 @@ struct StoriesData: Identifiable {
     var id = UUID()
     let sImage: String
     let lImage: String
-    let isShown: Bool
+    var isShown: Bool
 }
 
 //TODO: Решить убирать в модели или оставить
@@ -24,13 +24,13 @@ struct StoryIndex: Identifiable {
 struct DirectionView: View {
     
     //TODO: Move to VM
-    let stories: [StoriesData] = [
+    @State private var stories: [StoriesData] = [
         StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false),
         StoriesData(sImage: "S-Story-2", lImage: "L-Story-2", isShown: false),
         StoriesData(sImage: "S-Story-3", lImage: "L-Story-3", isShown: false),
         StoriesData(sImage: "S-Story-4", lImage: "L-Story-4", isShown: false),
         StoriesData(sImage: "S-Story-5", lImage: "L-Story-5", isShown: false),
-        StoriesData(sImage: "S-Story-6", lImage: "L-Story-6", isShown: true),
+        StoriesData(sImage: "S-Story-6", lImage: "L-Story-6", isShown: false),
         StoriesData(sImage: "S-Story-7", lImage: "L-Story-7", isShown: false),
         StoriesData(sImage: "S-Story-8", lImage: "L-Story-8", isShown: false),
         StoriesData(sImage: "S-Story-9", lImage: "L-Story-9", isShown: false),
@@ -49,6 +49,7 @@ struct DirectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             // STORIES
+            //TODO: Подумать над тем, чтобы фильтровать (не просмотренные слева)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
@@ -163,7 +164,13 @@ struct DirectionView: View {
         }
         
         .fullScreenCover(item: $selectedStoryIndex) { storyIndex in
-            StoriesFullscreenView(data: stories, initialStoryIndex: storyIndex.id)
+            StoriesFullscreenView(
+                data: stories,
+                initialStoryIndex: storyIndex.id,
+                markStoryAsShown: { index in
+                    stories[index].isShown = true
+                }
+            )
         }
     }
 }

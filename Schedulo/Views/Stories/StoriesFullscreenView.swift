@@ -11,37 +11,37 @@ struct StoriesFullscreenView: View {
     struct Configuration {
         let timerTickInterval: TimeInterval
         let progressPerTick: CGFloat
-
+        
         init(
             storiesCount: Int,
             secondsPerStory: TimeInterval = 5,
             timerTickInterval: TimeInterval = 0.05
         ) {
             self.timerTickInterval = timerTickInterval
-            // На каждый тик, на сколько надо увеличить прогресс?
             self.progressPerTick = 1.0 / secondsPerStory * timerTickInterval
         }
     }
-
+    
     let data: [StoriesData]
     let initialStoryIndex: Int
+    var markStoryAsShown: ((Int) -> Void)?
     let storyDuration: TimeInterval = 5
     
     @State private var currentStoryIndex: Int = 0
     @State private var progress: CGFloat = 0
     @State private var timer: Timer?
     @Environment(\.dismiss) private var dismiss
-
-    private let configuration: Configuration
     
-    init(data: [StoriesData], initialStoryIndex: Int) {
+    private let configuration: Configuration
+    private var currentStory: StoriesData { data[currentStoryIndex] }
+    
+    init(data: [StoriesData], initialStoryIndex: Int, markStoryAsShown: ((Int) -> Void)?) {
         self.data = data
         self.initialStoryIndex = initialStoryIndex
+        self.markStoryAsShown = markStoryAsShown
         self.configuration = Configuration(storiesCount: data.count)
     }
     
-    private var currentStory: StoriesData { data[currentStoryIndex] }
-
     var body: some View {
         ZStack(alignment: .topTrailing) {
             Color.black.ignoresSafeArea()
@@ -61,7 +61,7 @@ struct StoriesFullscreenView: View {
         }
         .onAppear {
             currentStoryIndex = initialStoryIndex
-//            startTimer()
+            startTimer()
         }
         .onDisappear {
             stopTimer()
@@ -86,28 +86,29 @@ struct StoriesFullscreenView: View {
             timerTick()
         }
     }
-
+    
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
     }
-
+    
     private func resetTimer() {
         stopTimer()
         progress = 0
         startTimer()
     }
-
+    
     private func timerTick() {
         var nextProgress = progress + configuration.progressPerTick
         if nextProgress >= 1.0 {
             // История закончилась — переход к следующей
             nextProgress = 0
             nextStory()
+            markStoryAsShown?(currentStoryIndex - 1)
         }
         progress = nextProgress
     }
-
+    
     private func nextStory() {
         if currentStoryIndex < data.count - 1 {
             currentStoryIndex += 1
@@ -121,5 +122,5 @@ struct StoriesFullscreenView: View {
 
 #Preview {
     let data = StoriesData(sImage: "S-Story-1", lImage: "L-Story-3", isShown: false)
-    StoriesFullscreenView(data: [data], initialStoryIndex: 0)
+    StoriesFullscreenView(data: [data], initialStoryIndex: 0, markStoryAsShown: nil)
 }
