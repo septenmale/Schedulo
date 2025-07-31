@@ -66,6 +66,7 @@ struct DirectionView: View {
             .ignoresSafeArea(.all, edges: .trailing)
             
             // MAIN CARD
+            //TODO: Поправить цвет шрифта в зав-ти от что выбранно
             NavigationStack(path: $path) {
                 VStack(spacing: 16) {
                     ZStack {

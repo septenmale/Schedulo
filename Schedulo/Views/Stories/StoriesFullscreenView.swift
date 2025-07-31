@@ -25,7 +25,7 @@ struct StoriesFullscreenView: View {
     let data: [StoriesData]
     let initialStoryIndex: Int
     var markStoryAsShown: ((Int) -> Void)?
-    let storyDuration: TimeInterval = 5
+    let storyDuration: TimeInterval = 10
     
     @State private var currentStoryIndex: Int = 0
     @State private var progress: CGFloat = 0
@@ -66,11 +66,22 @@ struct StoriesFullscreenView: View {
         .onDisappear {
             stopTimer()
         }
-        //TODO: Добавить переключение по свайпу лево/право
         .onTapGesture {
             nextStory()
             resetTimer()
         }
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width < -50 {
+                        nextStory()
+                    } else if value.translation.width > 50 {
+                        previousStory()
+                    } else if value.translation.height > 50 {
+                        dismiss()
+                    }
+                }
+        )
     }
     
     /// Значение прогресс-бара для всего набора stories
@@ -101,19 +112,27 @@ struct StoriesFullscreenView: View {
     private func timerTick() {
         var nextProgress = progress + configuration.progressPerTick
         if nextProgress >= 1.0 {
-            // История закончилась — переход к следующей
             nextProgress = 0
             nextStory()
-            markStoryAsShown?(currentStoryIndex - 1)
         }
         progress = nextProgress
     }
     
     private func nextStory() {
+        markStoryAsShown?(currentStoryIndex)
+        
         if currentStoryIndex < data.count - 1 {
             currentStoryIndex += 1
         } else {
-            // Последняя история — закрываем окно
+            dismiss()
+        }
+        progress = 0
+    }
+    
+    private func previousStory() {
+        if currentStoryIndex > 0 {
+            currentStoryIndex -= 1
+        } else {
             dismiss()
         }
         progress = 0
