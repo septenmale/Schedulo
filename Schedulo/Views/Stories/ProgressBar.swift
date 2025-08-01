@@ -26,7 +26,6 @@ struct ProgressBar: View {
                     .foregroundColor(.white)
                 RoundedRectangle(cornerRadius: .progressBarCornerRadius)
                     .frame(
-                       
                         width: min(
                             progress * geometry.size.width,
                             geometry.size.width

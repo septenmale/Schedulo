@@ -17,14 +17,14 @@ struct CarrierCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("E-mail")
                     .font(.system(size: 16, weight: .regular))
-                Text("i.lozgkina@yandex.ru")
+                Text(verbatim: "i.lozgkina@yandex.ru")
                     .font(.system(size: 16, weight: .regular))
                     .foregroundStyle(.appBlue)
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text("PhoneString")
                     .font(.system(size: 16, weight: .regular))
-                Text("+7 (904) 329-27-71")
+                Text(verbatim: "+7 (904) 329-27-71")
                     .font(.system(size: 16, weight: .regular))
                     .foregroundStyle(.appBlue)
             }

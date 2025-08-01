@@ -49,7 +49,6 @@ struct DirectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             // STORIES
-            //TODO: Подумать над тем, чтобы фильтровать (не просмотренные слева)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
@@ -66,7 +65,6 @@ struct DirectionView: View {
             .ignoresSafeArea(.all, edges: .trailing)
             
             // MAIN CARD
-            //TODO: Поправить цвет шрифта в зав-ти от что выбранно
             NavigationStack(path: $path) {
                 VStack(spacing: 16) {
                     ZStack {
@@ -91,7 +89,7 @@ struct DirectionView: View {
                                 } label: {
                                     HStack {
                                         Text(toHistory.giveString())
-                                            .foregroundStyle(fromHistory.city != nil ? Color.appBlack : Color.appGray)
+                                            .foregroundStyle(toHistory.city != nil ? Color.appBlack : Color.appGray)
                                             .font(.system(size: 17, weight: .regular))
                                         Spacer()
                                     }

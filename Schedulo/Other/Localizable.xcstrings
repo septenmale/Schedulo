@@ -18,9 +18,6 @@
       },
       "shouldTranslate" : false
     },
-    "+7 (904) 329-27-71" : {
-      "shouldTranslate" : false
-    },
     "ApplyButtonTitle" : {
       "comment" : "Title for a Apply button",
       "localizations" : {
@@ -107,9 +104,6 @@
       }
     },
     "E-mail" : {
-      "shouldTranslate" : false
-    },
-    "i.lozgkina@yandex.ru" : {
       "shouldTranslate" : false
     },
     "NoCityTitle" : {

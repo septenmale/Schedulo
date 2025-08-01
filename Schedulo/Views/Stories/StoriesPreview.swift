@@ -13,12 +13,9 @@ struct StoriesPreview: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             Image(data.sImage)
-            
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .opacity(data.isShown ? 0.5 : 1.0)
-            
             Text("Text Text Text Text Text Text Text Text Text")
-            
                 .lineLimit(3)
                 .font(.system(size: 12, weight: .regular))
                 .padding(8)
