@@ -46,6 +46,7 @@ struct CarriersView: View {
                 }
             }
         }
+        .frame(width: 360)
         .padding()
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)

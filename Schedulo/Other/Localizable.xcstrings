@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "???" : {
       "shouldTranslate" : false
     },
@@ -13,9 +16,6 @@
           }
         }
       },
-      "shouldTranslate" : false
-    },
-    "+7 (904) 329-27-71" : {
       "shouldTranslate" : false
     },
     "ApplyButtonTitle" : {
@@ -104,9 +104,6 @@
       }
     },
     "E-mail" : {
-      "shouldTranslate" : false
-    },
-    "i.lozgkina@yandex.ru" : {
       "shouldTranslate" : false
     },
     "NoCityTitle" : {
@@ -238,14 +235,32 @@
         }
       }
     },
+    "Text Text Text Text Text Text Text Text Text" : {
+
+    },
+    "Text Text Text Text Text Text Text Text Text Text" : {
+
+    },
+    "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text" : {
+
+    },
+    "Версия 1.0 (beta)" : {
+
+    },
     "ОАО \"РЖД\"" : {
       "shouldTranslate" : false
+    },
+    "Пользовательское соглашение" : {
+
+    },
+    "Приложение использует API «Яндекс.Расписания»" : {
+
     },
     "С пересадкой в Костроме" : {
       "shouldTranslate" : false
     },
-    "Тута будут настройки" : {
-      "shouldTranslate" : false
+    "Темная тема" : {
+
     }
   },
   "version" : "1.0"
