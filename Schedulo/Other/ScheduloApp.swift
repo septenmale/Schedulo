@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ScheduloApp: App {
+    @State private var settingsVM = SettingsViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(settingsVM: $settingsVM)
         }
     }
 }

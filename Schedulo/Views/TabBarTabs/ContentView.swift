@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var error: ErrorType? = nil
-    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+    @Binding var settingsVM: SettingsViewModel
     
-    var colorScheme: ColorScheme? {
-        switch selectedAppearance {
+   private var colorScheme: ColorScheme? {
+        switch settingsVM.selectedAppearance {
         case .light:
             return .light
         case .dark:
@@ -34,11 +34,11 @@ struct ContentView: View {
                 NavigationStack {
                     DirectionView()
                 }
-                    .tabItem {
-                        Image(.directionIcon)
-                            .renderingMode(.template)
-                    }
-                SettingsView()
+                .tabItem {
+                    Image(.directionIcon)
+                        .renderingMode(.template)
+                }
+                SettingsView(settingsVM: $settingsVM)
                     .tabItem {
                         Image(.settingsIcon)
                             .renderingMode(.template)
@@ -47,10 +47,11 @@ struct ContentView: View {
             .accentColor(.appBlackDay)
             .preferredColorScheme(colorScheme)
         }
-            
+        
     }
 }
 
 #Preview {
-    ContentView()
+    @Previewable @State var settingsVM = SettingsViewModel()
+    ContentView(settingsVM: $settingsVM)
 }

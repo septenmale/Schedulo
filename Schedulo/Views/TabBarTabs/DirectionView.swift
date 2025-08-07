@@ -175,5 +175,5 @@ struct DirectionView: View {
 }
 
 #Preview {
-    ContentView()
+    DirectionView()
 }

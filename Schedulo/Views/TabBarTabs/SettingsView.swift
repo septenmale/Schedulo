@@ -8,25 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
-    @State private var isDarkThemeEnabled = false
-    
-    private var isDarkThemeBinding: Binding<Bool> {
-        Binding(
-            // при отрисовке показывает включенным если выполняется проверка
-            get: { selectedAppearance == .dark },
-            // когда значение меняется изменяет тему на темную, если включенный и наоборот
-            set: { newValue in
-                selectedAppearance = newValue ? .dark : .light
-            }
-        )
-    }
-    
+    @Binding var settingsVM: SettingsViewModel
+        
     var body: some View {
         NavigationStack {
             VStack {
                 VStack {
-                    Toggle("Темная тема", isOn: isDarkThemeBinding)
+                    Toggle("Темная тема", isOn: $settingsVM.isDarkMode)
                         .padding(.bottom)
                     NavigationLink {
                         UserAgreementView()
@@ -61,5 +49,6 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    @Previewable @State var settingsVM = SettingsViewModel()
+    SettingsView(settingsVM: $settingsVM)
 }
