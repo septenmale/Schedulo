@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var error: ErrorType? = nil
     @Binding var settingsVM: SettingsViewModel
     
-   private var colorScheme: ColorScheme? {
+    private var colorScheme: ColorScheme? {
         switch settingsVM.selectedAppearance {
         case .light:
             return .light

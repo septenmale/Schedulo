@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct StoriesPreview: View {
-    let data: StoriesData
+    let story: Stories
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Image(data.sImage)
+            Image(story.sImage)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-                .opacity(data.isShown ? 0.5 : 1.0)
+                .opacity(story.isShown ? 0.5 : 1.0)
             Text("Text Text Text Text Text Text Text Text Text")
                 .lineLimit(3)
                 .font(.system(size: 12, weight: .regular))
@@ -24,12 +24,12 @@ struct StoriesPreview: View {
         .frame(width: 92, height: 140)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(data.isShown ? Color.clear : Color.appBlue, lineWidth: 4)
+                .stroke(story.isShown ? Color.clear : Color.appBlue, lineWidth: 4)
         )
     }
 }
 
 #Preview {
-    let data = StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false)
-    StoriesPreview(data: data)
+    let data = Stories(index: 3, sImage: "S-Story-1", lImage: "L-Story-1", isShown: false)
+    StoriesPreview(story: data)
 }

@@ -7,40 +7,13 @@
 
 import SwiftUI
 
-//TODO: Убрать в модель
-struct StoriesData: Identifiable {
-    var id = UUID()
-    let sImage: String
-    let lImage: String
-    var isShown: Bool
-}
-
-//TODO: Решить убирать в модели или оставить
-/// Обертка над переменной типа Int в DirectionView чтобы работал fullScreenCover
-struct StoryIndex: Identifiable {
-    let id: Int
-}
-
 struct DirectionView: View {
-    
-    //TODO: Move to VM
-    @State private var stories: [StoriesData] = [
-        StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false),
-        StoriesData(sImage: "S-Story-2", lImage: "L-Story-2", isShown: false),
-        StoriesData(sImage: "S-Story-3", lImage: "L-Story-3", isShown: false),
-        StoriesData(sImage: "S-Story-4", lImage: "L-Story-4", isShown: false),
-        StoriesData(sImage: "S-Story-5", lImage: "L-Story-5", isShown: false),
-        StoriesData(sImage: "S-Story-6", lImage: "L-Story-6", isShown: false),
-        StoriesData(sImage: "S-Story-7", lImage: "L-Story-7", isShown: false),
-        StoriesData(sImage: "S-Story-8", lImage: "L-Story-8", isShown: false),
-        StoriesData(sImage: "S-Story-9", lImage: "L-Story-9", isShown: false),
-    ]
-    
+    @State private var storiesVM = StoriesViewModel()
     @State private var path = NavigationPath()
     @State private var fromHistory = SelectionHistory(role: .from)
     @State private var toHistory = SelectionHistory(role: .to)
     @State private var showCarriers = false
-    @State private var selectedStoryIndex: StoryIndex? = nil
+    @State private var selectedStory: Stories? = nil
     
     var shouldShowButton: Bool {
         fromHistory.station != nil && toHistory.station != nil
@@ -51,13 +24,12 @@ struct DirectionView: View {
             // STORIES
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
-                        StoriesPreview(data: story)
+                    ForEach(storiesVM.stories) { story in
+                        StoriesPreview(story: story)
                             .onTapGesture {
-                                selectedStoryIndex = StoryIndex(id: index)
+                                selectedStory = story
                             }
                     }
-                    
                 }
                 .padding(16)
             }
@@ -162,13 +134,10 @@ struct DirectionView: View {
                 .padding(.top, 16)
         }
         
-        .fullScreenCover(item: $selectedStoryIndex) { storyIndex in
+        .fullScreenCover(item: $selectedStory) { story in
             StoriesFullscreenView(
-                data: stories,
-                initialStoryIndex: storyIndex.id,
-                markStoryAsShown: { index in
-                    stories[index].isShown = true
-                }
+                storiesVM: $storiesVM,
+                initialStoryIndex: story.index,
             )
         }
     }
