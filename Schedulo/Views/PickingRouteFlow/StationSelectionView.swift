@@ -14,7 +14,12 @@ struct StationSelectionView: View {
     
     @State private var searchText = ""
     @Binding var path: NavigationPath
-    @Binding var selectionHistory: SelectionHistory
+    
+    //Новая логика
+    @Binding var directionVM: DirectionViewModel
+    //Должна ли быть байдингом?
+    let role: DirectionRole
+    
     var shouldShowNoResults: Bool {
         searchResults.isEmpty
     }
@@ -33,7 +38,7 @@ struct StationSelectionView: View {
             LazyVStack {
                 ForEach(searchResults, id: \.self) { station in
                     Button {
-                        selectionHistory.station = station
+                        directionVM.setStation(station, for: role)
                         path = NavigationPath()
                     } label: {
                         HStack {
@@ -59,7 +64,8 @@ struct StationSelectionView: View {
 }
 
 #Preview {
-    @Previewable @State var history = SelectionHistory(role: .from)
+    @Previewable @State var directionVM = DirectionViewModel()
     @Previewable @State var path = NavigationPath()
-    StationSelectionView(path: $path, selectionHistory: $history)
+    let role: DirectionRole = .from
+    StationSelectionView(path: $path, directionVM: $directionVM, role: role)
 }

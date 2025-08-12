@@ -9,12 +9,17 @@ import SwiftUI
 
 struct CitySelectionView: View {
     
-    //TODO: Вынести из View
+    //TODO: Вынести в VM для данного экрана
     let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
     
     @State private var searchText = ""
     @Binding var path: NavigationPath
-    @Binding var selectionHistory: SelectionHistory
+    
+    //Новая логика
+    @Binding var directionVM: DirectionViewModel
+    //Должна ли быть байдингом?
+    let role: DirectionRole
+    
     var shouldShowNoResults: Bool {
         searchResults.isEmpty
     }
@@ -33,8 +38,8 @@ struct CitySelectionView: View {
             LazyVStack {
                 ForEach(searchResults, id: \.self) { cityName in
                     Button {
-                        path.append(SelectionHistory(role: selectionHistory.role, city: cityName))
-                        selectionHistory.city = cityName
+                        path.append(SelectionHistory(role: role,city: cityName))
+                        directionVM.setCity(cityName, for: role)
                     } label: {
                         HStack {
                             Text(cityName)
@@ -65,8 +70,8 @@ struct CitySelectionView: View {
 }
 
 #Preview {
-    @Previewable @State var history = SelectionHistory(role: .from)
-    
+    @Previewable @State var directionVM = DirectionViewModel()
     @Previewable @State var path = NavigationPath()
-    CitySelectionView(path: $path, selectionHistory: $history)
+    let role: DirectionRole = .from
+    CitySelectionView(path: $path, directionVM: $directionVM, role: role)
 }

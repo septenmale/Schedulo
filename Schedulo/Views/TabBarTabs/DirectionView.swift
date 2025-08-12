@@ -6,18 +6,18 @@
 //
 
 import SwiftUI
-
+//TODO: Я уже создал одну общую VM для управление назначениями и подвязал к ней экраны.
+// далее остается подправить нав токен (по желанию), создать VM для станции/города и добавить VM для остальных экранов.
 struct DirectionView: View {
     @State private var storiesVM = StoriesViewModel()
+    @State private var directionVM = DirectionViewModel()
     @State private var path = NavigationPath()
-    @State private var fromHistory = SelectionHistory(role: .from)
-    @State private var toHistory = SelectionHistory(role: .to)
+    
+    
     @State private var showCarriers = false
     @State private var selectedStory: Stories? = nil
     
-    var shouldShowButton: Bool {
-        fromHistory.station != nil && toHistory.station != nil
-    }
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -45,23 +45,19 @@ struct DirectionView: View {
                             .frame(height: 128)
                         HStack {
                             VStack(alignment: .leading, spacing: 0) {
-                                Button {
-                                    path.append(fromHistory)
-                                } label: {
+                                Button { path.append(directionVM.from) } label: {
                                     HStack {
-                                        Text(fromHistory.giveString())
-                                            .foregroundStyle(fromHistory.city != nil ? Color.appBlack : Color.appGray)
+                                        Text(directionVM.from.giveString())
+                                            .foregroundStyle(directionVM.from.city != nil ? Color.appBlack : Color.appGray)
                                             .font(.system(size: 17, weight: .regular))
                                         Spacer()
                                     }
                                 }
                                 Spacer()
-                                Button {
-                                    path.append(toHistory)
-                                } label: {
+                                Button { path.append(directionVM.to) } label: {
                                     HStack {
-                                        Text(toHistory.giveString())
-                                            .foregroundStyle(toHistory.city != nil ? Color.appBlack : Color.appGray)
+                                        Text(directionVM.to.giveString())
+                                            .foregroundStyle(directionVM.to.city != nil ? Color.appBlack : Color.appGray)
                                             .font(.system(size: 17, weight: .regular))
                                         Spacer()
                                     }
@@ -74,16 +70,7 @@ struct DirectionView: View {
                                     .fill(Color.white)
                             )
                             Spacer()
-                            Button {
-                                let tempCity = fromHistory.city
-                                let tempStation = fromHistory.station
-                                
-                                fromHistory.city = toHistory.city
-                                fromHistory.station = toHistory.station
-                                
-                                toHistory.city = tempCity
-                                toHistory.station = tempStation
-                            } label: {
+                            Button { directionVM.swapDirections() } label: {
                                 Image(.reverseButton)
                                     .frame(width: 36, height: 36)
                             }
@@ -96,29 +83,27 @@ struct DirectionView: View {
                         if step.city == nil {
                             CitySelectionView(
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory,
+                                directionVM: $directionVM,
+                                role: step.role,
                             )
                         } else if step.station == nil {
                             StationSelectionView(
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory
+                                directionVM: $directionVM,
+                                role: step.role
                             )
                         } else {
                             CitySelectionView(
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory,
+                                directionVM: $directionVM,
+                                role: step.role
                             )
                         }
                     }
                     
-                    if shouldShowButton {
+                    if directionVM.shouldShowSearchButton {
                         NavigationLink {
-                            CarriersView(routeInfo: RouteInfo(
-                                fromCity: fromHistory.city ?? "",
-                                toCity: toHistory.city ?? "",
-                                fromStation: fromHistory.station ?? "",
-                                toStation: toHistory.station ?? "")
-                            )
+                            CarriersView(routeInfo: directionVM.buildRouteInfo())
                         } label: {
                             Text("SearchButton")
                                 .frame(width: 150, height: 60)
