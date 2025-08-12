@@ -8,25 +8,14 @@
 import SwiftUI
 
 struct CitySelectionView: View {
-    
-    //TODO: Вынести в VM для данного экрана
-    let cities = ["Москва", "Санкт-Петербург", "Сочи", "Горный воздух", "Краснодар", "Казань", "Омск"]
-    
-    @State private var searchText = ""
+    @State private var citySelectionVM = CitySelectionViewModel()
     @Binding var path: NavigationPath
-    
-    //Новая логика
     @Binding var directionVM: DirectionViewModel
-    //Должна ли быть байдингом?
+    
     let role: DirectionRole
     
-    var shouldShowNoResults: Bool {
-        searchResults.isEmpty
-    }
-    
     var body: some View {
-        
-        if shouldShowNoResults {
+        if citySelectionVM.shouldShowNoResults {
             VStack {
                 Spacer()
                 Text("NoCityTitle")
@@ -36,7 +25,7 @@ struct CitySelectionView: View {
         
         ScrollView(showsIndicators: false) {
             LazyVStack {
-                ForEach(searchResults, id: \.self) { cityName in
+                ForEach(citySelectionVM.searchResults, id: \.self) { cityName in
                     Button {
                         path.append(SelectionHistory(role: role,city: cityName))
                         directionVM.setCity(cityName, for: role)
@@ -53,7 +42,7 @@ struct CitySelectionView: View {
                 }
             }
             .searchable(
-                text: $searchText,
+                text: $citySelectionVM.searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: Text("Search")
             )
@@ -62,10 +51,6 @@ struct CitySelectionView: View {
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
-    }
-    
-    var searchResults: [String] {
-        searchText.isEmpty ? cities : cities.filter { $0.contains(searchText) }
     }
 }
 

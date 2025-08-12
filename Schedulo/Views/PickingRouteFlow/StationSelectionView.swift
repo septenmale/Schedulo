@@ -8,25 +8,14 @@
 import SwiftUI
 
 struct StationSelectionView: View {
-    
-    //TODO: Вынести из View
-    let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
-    
-    @State private var searchText = ""
+    @State private var stationSelectionVM = StationSelectionViewModel()
+    @Binding var directionVM: DirectionViewModel
     @Binding var path: NavigationPath
     
-    //Новая логика
-    @Binding var directionVM: DirectionViewModel
-    //Должна ли быть байдингом?
     let role: DirectionRole
     
-    var shouldShowNoResults: Bool {
-        searchResults.isEmpty
-    }
-    
     var body: some View {
-        
-        if shouldShowNoResults {
+        if stationSelectionVM.shouldShowNoResults {
             VStack {
                 Spacer()
                 Text("NoStationTitle")
@@ -36,7 +25,7 @@ struct StationSelectionView: View {
         
         ScrollView(showsIndicators: false) {
             LazyVStack {
-                ForEach(searchResults, id: \.self) { station in
+                ForEach(stationSelectionVM.searchResults, id: \.self) { station in
                     Button {
                         directionVM.setStation(station, for: role)
                         path = NavigationPath()
@@ -50,16 +39,10 @@ struct StationSelectionView: View {
                     }
                 }
             }
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
+            .searchable(text: $stationSelectionVM.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
         }
-        
         .navigationTitle("Station selection")
         .toolbarRole(.editor)
-    }
-    
-    // Повторяется в двух View. Подумать над этим
-    var searchResults: [String] {
-        searchText.isEmpty ? stations : stations.filter { $0.contains(searchText) }
     }
 }
 
@@ -67,5 +50,5 @@ struct StationSelectionView: View {
     @Previewable @State var directionVM = DirectionViewModel()
     @Previewable @State var path = NavigationPath()
     let role: DirectionRole = .from
-    StationSelectionView(path: $path, directionVM: $directionVM, role: role)
+    StationSelectionView(directionVM: $directionVM, path: $path, role: role)
 }

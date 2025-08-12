@@ -88,8 +88,8 @@ struct DirectionView: View {
                             )
                         } else if step.station == nil {
                             StationSelectionView(
-                                path: $path,
                                 directionVM: $directionVM,
+                                path: $path,
                                 role: step.role
                             )
                         } else {
