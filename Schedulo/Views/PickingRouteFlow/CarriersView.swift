@@ -7,19 +7,14 @@
 
 import SwiftUI
 
-// Переименовать файл, но вызывает ошибку
 struct CarriersView: View {
-    var routeInfo: RouteInfo
+    @State private var carriersVM: CarriersViewModel
+    let routeInfo: RouteInfo
     
-    //TODO: Убрать в ViewModel
-    /// Моки для отображения списка перевозчиков
-    let listOfCarriers: [CarrierCardInfo] = [
-        CarrierCardInfo(name: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true),
-        CarrierCardInfo(name: "ФГК", date: "15 января", departureTime: "01:15", arrivalTime: "09:00", time: "20 часов", shouldTransfer: false),
-        CarrierCardInfo(name: "Урал логистика", date: "16 января", departureTime: "12:30", arrivalTime: "21:00", time: "9 часов", shouldTransfer: false),
-        CarrierCardInfo(name: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true),
-        CarrierCardInfo(name: "РЖД", date: "17 января", departureTime: "23:15", arrivalTime: "09:40", time: "20 часов", shouldTransfer: false)
-    ]
+    init(routeInfo: RouteInfo) {
+        self.routeInfo = routeInfo
+        _carriersVM = State(initialValue: CarriersViewModel(route: routeInfo))
+    }
     
     var body: some View {
         VStack() {
@@ -29,7 +24,7 @@ struct CarriersView: View {
                 CarrierCard()
             }
             label: {
-                List(listOfCarriers) { card in
+                List(carriersVM.listOfCarriers) { card in
                     CarrierCellView(carrierInfo: card)
                         .listRowSeparator(.hidden)
                 }

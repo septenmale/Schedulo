@@ -6,18 +6,14 @@
 //
 
 import SwiftUI
-//TODO: Я уже создал одну общую VM для управление назначениями и подвязал к ней экраны.
-// далее остается подправить нав токен (по желанию), создать VM для станции/города и добавить VM для остальных экранов.
+
 struct DirectionView: View {
     @State private var storiesVM = StoriesViewModel()
     @State private var directionVM = DirectionViewModel()
     @State private var path = NavigationPath()
     
-    
     @State private var showCarriers = false
     @State private var selectedStory: Stories? = nil
-    
-    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
