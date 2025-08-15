@@ -7,40 +7,12 @@
 
 import SwiftUI
 
-
-//TODO: Убрать из View
-enum DepartureTime: String, CaseIterable {
-    //TODO: Разобрать с локализацией
-    case morning = "Утро 06:00 - 12:00"
-    case day = "День 12:00 - 18:00"
-    case evening = "Вечер 18:00 - 00:00"
-    case night = "Ночь 00:00 - 06:00"
-}
-
-//TODO: Убрать из View
-enum TransferFilter: String, CaseIterable {
-    //TODO: Разобрать с локализацией
-    case yes = "Да"
-    case no = "Нет"
-}
-
-//TODO: Убрать из View
-struct FilterState {
-    var times: Set<DepartureTime>
-    var transfer: TransferFilter
-}
-
-//TODO: Добавить локализацию
-//TODO: Не много ли паддингов? Если вложенные вью нельзя ли сократить ?
+/// Редактирует фильтр, напрямую меняя  вычисляемый vm.filtered в CarriersViewModel
 struct RouteFiltrationView: View {
-    @State private var selectedDepartureTime: Set<DepartureTime> = []
-    @State private var selectedTransferFilter: TransferFilter? = nil
-    
-    /// Передает инфо о маршруте. Откуда/куда, город/станция
-    var routeInfo: RouteInfo
+    let carriersVM: CarriersViewModel
     
     private var shouldShowButton: Bool {
-        return !selectedDepartureTime.isEmpty && selectedTransferFilter != nil
+        !carriersVM.filterState.times.isEmpty && carriersVM.filterState.transfer != nil
     }
     
     var body: some View {
@@ -52,13 +24,13 @@ struct RouteFiltrationView: View {
                     Text(time.rawValue)
                     Spacer()
                     Button {
-                        if selectedDepartureTime.contains(time) {
-                            selectedDepartureTime.remove(time)
+                        if carriersVM.filterState.times.contains(time) {
+                            carriersVM.filterState.times.remove(time)
                         } else {
-                            selectedDepartureTime.insert(time)
+                            carriersVM.filterState.times.insert(time)
                         }
                     } label: {
-                        Image(selectedDepartureTime.contains(time) ? .squareCheckmark : .square)
+                        Image(carriersVM.filterState.times.contains(time) ? .squareCheckmark : .square)
                             .frame(width: 24, height: 24)
                     }
                 }
@@ -71,9 +43,9 @@ struct RouteFiltrationView: View {
                     Text(option.rawValue)
                     Spacer()
                     Button {
-                        selectedTransferFilter = option
+                        carriersVM.filterState.transfer = option
                     } label: {
-                        Image(selectedTransferFilter == option ? .circleCheckmark : .circle)
+                        Image(carriersVM.filterState.transfer == option ? .circleCheckmark : .circle)
                             .frame(width: 24, height: 24)
                     }
                     
@@ -86,10 +58,7 @@ struct RouteFiltrationView: View {
         .toolbarRole(.editor)
         if shouldShowButton {
             NavigationLink {
-                RouteDetailsView(
-                    filter: FilterState(times: selectedDepartureTime, transfer: selectedTransferFilter ?? .yes),
-                    routeInfo: routeInfo
-                )
+                RouteDetailsView(carriersVM: carriersVM)
             } label: {
                 Text("ApplyButtonTitle")
                     .frame(width: 343, height: 60)
@@ -102,5 +71,6 @@ struct RouteFiltrationView: View {
 
 #Preview {
     let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
-    RouteFiltrationView(routeInfo: info)
+    let vm = CarriersViewModel(route: info)
+    RouteFiltrationView(carriersVM: vm)
 }

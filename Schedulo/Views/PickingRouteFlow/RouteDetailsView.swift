@@ -7,61 +7,63 @@
 
 import SwiftUI
 
+/// Смотрит вычисляемый vm.filtered в CarriersViewModel и рэндэрит результат
 struct RouteDetailsView: View {
-    let filter: FilterState
-    var routeInfo: RouteInfo
+    let carriersVM: CarriersViewModel
     
-    /// Данная переменная прототип фильтрации. Если подходящий маршрутов нет - показываем заглушку
     var haveResults: Bool {
-        true
+        //        false
+        !carriersVM.filtered.isEmpty
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(routeInfo.fromCity) (\(routeInfo.fromStation)) -> \(routeInfo.toCity) (\(routeInfo.toStation))")
+        VStack(alignment: .leading, spacing: 0) {
+            // Title
+            Text("\(carriersVM.route.fromCity) (\(carriersVM.route.fromStation)) -> \(carriersVM.route.toCity) (\(carriersVM.route.toStation))")
                 .titleStyle()
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
             
-            // Данный экземпляр в будущем будем получать из VM. По примеру из CarriersView + фильтр
             if haveResults {
-                NavigationLink {
-                    CarrierCard()
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(spacing: 16) {
+                        ForEach(carriersVM.filtered) { card in
+                            NavigationLink {
+                                CarrierCard(carrier: card)
+                            } label: {
+                                CarrierCellView(carrierInfo: card)
+                                    .listRowSeparator(.hidden)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
                 }
-                label: {
-                    CarrierCellView(carrierInfo: CarrierCardInfo(
-                        name: "РЖД",
-                        date: "14 января",
-                        departureTime: "22:30",
-                        arrivalTime: "08:15",
-                        time: "20 часов",
-                        shouldTransfer: true)
-                    )
-                    .padding(.horizontal)
+                .safeAreaInset(edge: .bottom) {
+                    NavigationLink {
+                        Text("???")
+                    } label: {
+                        Text("CheckTimeButton")
+                            .frame(width: 343, height: 60)
+                            .buttonStyle()
+                    }
                 }
+                .padding(.bottom,16)
+            } else {
+                Spacer()
+                Text("NoOptionsString")
+                    .titleStyle()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.horizontal, 16)
+                Spacer()
             }
         }
-        .padding()
-        Spacer()
-        if !haveResults {
-            Text("NoOptionsString")
-                .titleStyle()
-        }
-        Spacer()
-        
-        // Узнать что делает кнопка
-        NavigationLink {
-            Text("???")
-        } label: {
-            Text("CheckTimeButton")
-                .frame(width: 343, height: 60)
-                .buttonStyle()
-        }
-        .padding()
         .toolbarRole(.editor)
     }
 }
 
 #Preview {
-    let filter = FilterState(times: [.evening, .night], transfer: .no)
     let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
-    RouteDetailsView(filter: filter, routeInfo: info)
+    let vm = CarriersViewModel(route: info)
+    RouteDetailsView(carriersVM: vm)
 }

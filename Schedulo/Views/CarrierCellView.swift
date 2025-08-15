@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-//TODO: Убрать в Models
-
-/// Описывает модель карточки перевозчика
-struct CarrierCardInfo: Hashable, Identifiable {
-    var id: UUID = UUID()
-    var name: String
-    var date: String
-    var departureTime: String
-    var arrivalTime: String
-    var time: String // Придумать как посчитать разницу
-    var shouldTransfer: Bool
-}
-
 struct CarrierCellView: View {
     let carrierInfo: CarrierCardInfo
     
@@ -69,6 +56,7 @@ struct CarrierCellView: View {
                 .padding()
             }
         }
+        //TODO: Разобраться с этим. Возможно фикс ширина не лучший вывод, полагаться больше на .padding(.horizontal, 16)
         .frame(width: 343, height: 104)
     }
 }
