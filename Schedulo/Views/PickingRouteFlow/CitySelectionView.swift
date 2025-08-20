@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//TODO: Изначально, пока не загрузился список появляется заглушка - поправить!
 struct CitySelectionView: View {
     @State private var citySelectionVM = CitySelectionViewModel()
     @Binding var path: NavigationPath
@@ -25,13 +26,14 @@ struct CitySelectionView: View {
         
         ScrollView(showsIndicators: false) {
             LazyVStack {
-                ForEach(citySelectionVM.searchResults, id: \.self) { cityName in
+                ForEach(citySelectionVM.searchResults, id: \.code) { city in
                     Button {
-                        path.append(SelectionHistory(role: role,city: cityName))
-                        directionVM.setCity(cityName, for: role)
+                        let stations = citySelectionVM.stations(for: city.code)
+                        directionVM.setCity(city.title, code: city.code, stations: stations, for: role)
+                        path.append(SelectionHistory(role: role, city: city.title))
                     } label: {
                         HStack {
-                            Text(cityName)
+                            Text(city.title)
                                 .font(.system(size: 17, weight: .regular))
                                 .foregroundStyle(Color.appBlackDay)
                             Spacer()
@@ -51,6 +53,9 @@ struct CitySelectionView: View {
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
+        .task {
+            await citySelectionVM.fetchCities()
+        }
     }
 }
 

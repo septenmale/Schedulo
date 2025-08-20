@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+//TODO: Стоит здесь и на экранах похоже типа поправить отсупы. Между заголовка, от краев экрана и тд. По ощущениям слишком много.
 
 struct CarriersListView: View {
     @State private var carriersVM: CarriersViewModel

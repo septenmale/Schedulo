@@ -7,13 +7,19 @@
 
 import Foundation
 
+@MainActor
 @Observable
 final class StationSelectionViewModel {
-    let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
+    private let stations: [Station]
     var searchText = ""
     
-    var searchResults: [String] {
-        searchText.isEmpty ? stations : stations.filter { $0.contains(searchText) }
+    init(stations: [Station]) {
+        self.stations = stations
+    }
+    
+    var searchResults: [Station] {
+        searchText.isEmpty ? stations : stations.filter { $0.title.localizedCaseInsensitiveContains(searchText.trimmingCharacters(in: .whitespacesAndNewlines))
+        }
     }
     
     var shouldShowNoResults: Bool {

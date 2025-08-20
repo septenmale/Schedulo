@@ -46,3 +46,69 @@ struct CarrierCard: View {
     let info =  CarrierCardInfo(name: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true)
     CarrierCard(carrier: info)
 }
+
+
+//func loadStrings() async {
+//    let loadTask = Task { () -> [String] in
+//        let url = URL(string: "https://...")!
+//        let (data, _) = try await URLSession.shared.data(from: url)
+//        try Task.checkCancellation()
+//        let strings = try JSONDecoder().decode([String].self, from: data)
+//        // Обработка строк или их сохранение
+//        return strings
+//    }
+//    do {
+//        let result = try await loadTask.value
+//    } catch {
+//        // Обработка ошибки, включая отмену задачи
+//    }
+//}
+//
+//let mainTaskk = Task {
+//   let task1 = Task {
+//       // ...
+//   }
+//   let task2 = Task {
+//       // ...
+//   }
+//
+//   await withTaskCancellationHandler {
+//       _ = await task1.result
+//       _ = await task2.result
+//   } onCancel: {
+//       task1.cancel()
+//       task2.cancel()
+//   }
+//    
+//    mainTaskk.cancel()
+//}
+//
+//
+//
+//let mainTask = Task {
+//    await withTaskGroup(of: Void.self) { group in
+//        group.addTask {
+//            // ...
+//        }
+//        group.addTask {
+//            // ...
+//        }
+//    }
+//    mainTask.cancel()
+//}
+//
+//let songs = await withTaskGroup(of: String.self, returning: [String].self) { group in
+//    let albumsIDs = await albums(singer: "Frank Sinatra")
+//    for album in albumsIDs {
+//        group.addTask { await songs(in: album) }
+//    }
+//
+//    let song = try await group.next()
+//    return songs
+//}
+//
+//final class Test: Sendable {
+//    let age = 2
+//}
+
+
