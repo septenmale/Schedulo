@@ -13,6 +13,8 @@ struct CitySelectionView: View {
     @Binding var path: NavigationPath
     @Binding var directionVM: DirectionViewModel
     
+    @State private var showList = true
+    
     let role: DirectionRole
     
     var body: some View {
@@ -24,30 +26,36 @@ struct CitySelectionView: View {
             }
         }
         
-        ScrollView(showsIndicators: false) {
-            LazyVStack {
-                ForEach(citySelectionVM.searchResults, id: \.code) { city in
-                    Button {
-                        let stations = citySelectionVM.stations(for: city.code)
-                        directionVM.setCity(city.title, code: city.code, stations: stations, for: role)
-                        path.append(SelectionHistory(role: role, city: city.title))
-                    } label: {
-                        HStack {
-                            Text(city.title)
-                                .font(.system(size: 17, weight: .regular))
-                                .foregroundStyle(Color.appBlackDay)
-                            Spacer()
-                            Image(.chevronIcon)
+        Group {
+            if showList {
+                ScrollView(showsIndicators: false) {
+                    LazyVStack {
+                        ForEach(citySelectionVM.searchResults, id: \.code) { city in
+                            Button {
+                                let stations = citySelectionVM.stations(for: city.code)
+                                directionVM.setCity(city.title, code: city.code, stations: stations, for: role)
+                                
+                                showList = false
+                                path.append(SelectionHistory(role: role, city: city.title))
+                            } label: {
+                                HStack {
+                                    Text(city.title)
+                                        .font(.system(size: 17, weight: .regular))
+                                        .foregroundStyle(Color.appBlackDay)
+                                    Spacer()
+                                    Image(.chevronIcon)
+                                }
+                                .padding()
+                            }
                         }
-                        .padding()
                     }
+                    .searchable(
+                        text: $citySelectionVM.searchText,
+                        placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: Text("Search")
+                    )
                 }
             }
-            .searchable(
-                text: $citySelectionVM.searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: Text("Search")
-            )
         }
         .navigationTitle(Text("City selection"))
         .foregroundStyle(Color.appBlackDay)
@@ -56,6 +64,8 @@ struct CitySelectionView: View {
         .task {
             await citySelectionVM.fetchCities()
         }
+        .onAppear { showList = true }
+        .onDisappear { showList = false }
     }
 }
 
