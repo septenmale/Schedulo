@@ -11,6 +11,8 @@ import OpenAPIURLSession
 @MainActor
 @Observable
 final class CitySelectionViewModel {
+    var isLoading: Bool = true
+    
     private var payload: AllStations?
     private var desiredCountries = ["Россия", "Украина", "Польша"]
     var swiftCities: [City] = []
@@ -24,7 +26,7 @@ final class CitySelectionViewModel {
     
     //TODO: Показыает фолс если сделать пару пробелов, но если начать вписывать то поведение ожидаемое
     var shouldShowNoResults: Bool {
-        searchResults.isEmpty
+        searchResults.isEmpty && isLoading == false
     }
     
     /// Сохраняет сырой payload и строит массив городов на основании него и выбранных стран
@@ -32,6 +34,7 @@ final class CitySelectionViewModel {
         do {
             async let allStations = fetchAllStations()
             let payload = try await allStations
+            isLoading = false
             self.payload = payload
             let cities = makeCities(from: payload, onlyCountries: desiredCountries)
             self.swiftCities = cities

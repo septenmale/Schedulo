@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-//TODO: Изначально, пока не загрузился список появляется заглушка - поправить!
 struct CitySelectionView: View {
     @State private var citySelectionVM = CitySelectionViewModel()
     @Binding var path: NavigationPath
@@ -22,6 +21,12 @@ struct CitySelectionView: View {
             VStack {
                 Spacer()
                 Text("NoCityTitle")
+                    .titleStyle()
+            }
+        } else if citySelectionVM.isLoading {
+            VStack {
+                Spacer()
+                Text("Загрузка...")
                     .titleStyle()
             }
         }
@@ -61,6 +66,8 @@ struct CitySelectionView: View {
         .foregroundStyle(Color.appBlackDay)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
+        
+        //TODO: Возможно тут чтобы пофиксить пролаг стоит создать withTaskGroup чтобы грущило по мере появления. Ну или запускать загрузку раньше ??
         .task {
             await citySelectionVM.fetchCities()
         }
