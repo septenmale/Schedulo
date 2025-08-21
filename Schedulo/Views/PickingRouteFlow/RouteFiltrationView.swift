@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Редактирует фильтр, напрямую меняя  вычисляемый vm.filtered в CarriersViewModel
 struct RouteFiltrationView: View {
-    let carriersVM: CarriersViewModel
+    let carriersVM: CarriersListViewModel
     
     private var shouldShowButton: Bool {
         !carriersVM.filterState.times.isEmpty && carriersVM.filterState.transfer != nil
@@ -71,6 +71,8 @@ struct RouteFiltrationView: View {
 
 #Preview {
     let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
-    let vm = CarriersViewModel(route: info)
+    let from: Station = .init(code: "123", title: "Ярославский вокзал")
+    let to: Station = .init(code: "456", title: "Балтийский вокзал")
+    let vm = CarriersListViewModel(route: info, fromStation: from, toStation: to)
     RouteFiltrationView(carriersVM: vm)
 }

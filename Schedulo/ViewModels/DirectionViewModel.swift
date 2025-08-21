@@ -13,10 +13,11 @@ final class DirectionViewModel {
     var from = SelectionHistory(role: .from)
     var to = SelectionHistory(role: .to)
     
-    private var fromCityCode: String?
-    private var toCityCode: String?
     private var fromCityStations: [Station] = []
     private var toCityStations: [Station] = []
+    
+    private(set) var selectedFromStation: Station?
+    private(set) var selectedToStation:   Station?
     
     var shouldShowSearchButton: Bool {
         from.station != nil && to.station != nil
@@ -26,12 +27,10 @@ final class DirectionViewModel {
         if role == .from {
             from.city = city
             from.station = nil
-            fromCityCode = code
             fromCityStations = stations
         } else {
             to.city = city
             to.station = nil
-            toCityCode = code
             toCityStations = stations
         }
     }
@@ -41,16 +40,20 @@ final class DirectionViewModel {
          role == .from ? fromCityStations : toCityStations
      }
     
-    func setStation(_ station: String, for role: DirectionRole) {
+    func setStation(_ station: Station, for role: DirectionRole) {
         if role == .from {
-            from.station = station
+            from.station = station.title
+            selectedFromStation = station
         } else {
-            to.station = station
+            to.station = station.title
+            selectedToStation = station
         }
     }
     
     func swapDirections() {
         swap(&from, &to)
+        swap(&fromCityStations, &toCityStations)
+        swap(&selectedFromStation, &selectedToStation)
     }
     
     func buildRouteInfo() -> RouteInfo {

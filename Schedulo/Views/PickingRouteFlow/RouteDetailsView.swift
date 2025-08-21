@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Смотрит вычисляемый vm.filtered в CarriersViewModel и рэндэрит результат
 struct RouteDetailsView: View {
-    let carriersVM: CarriersViewModel
+    let carriersVM: CarriersListViewModel
     
     var haveResults: Bool {
         //        false
@@ -64,6 +64,8 @@ struct RouteDetailsView: View {
 
 #Preview {
     let info = RouteInfo(fromCity: "Москва", toCity: "Санкт Петербург", fromStation: "Ярославский вокзал", toStation: "Балтийский вокзал")
-    let vm = CarriersViewModel(route: info)
+    let from: Station = .init(code: "123", title: "Ярославский вокзал")
+    let to: Station = .init(code: "456", title: "Балтийский вокзал")
+    let vm = CarriersListViewModel(route: info, fromStation: from, toStation: to)
     RouteDetailsView(carriersVM: vm)
 }

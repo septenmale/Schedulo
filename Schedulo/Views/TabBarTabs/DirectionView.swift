@@ -99,8 +99,7 @@ struct DirectionView: View {
                     
                     if directionVM.shouldShowSearchButton {
                         NavigationLink {
-                            //TODO: Стоит ли передавать RouteInfo?
-                            CarriersListView(routeInfo: directionVM.buildRouteInfo())
+                            CarriersListView(routeInfo: directionVM.buildRouteInfo(), directionVM: directionVM)
                         } label: {
                             Text("SearchButton")
                                 .frame(width: 150, height: 60)

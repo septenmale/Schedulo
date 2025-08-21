@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-// На данном этапе разбираюсь как прокинуть станции сюда. Есть идея сделать DirectionView координатором и тогд аон соберет инфо на экране городе и передаст на эжкран станция.
-// нужно ли оидельная модель для станций ?
+
 struct StationSelectionView: View {
     @Binding var directionVM: DirectionViewModel
     @Binding var path: NavigationPath
@@ -33,7 +32,7 @@ struct StationSelectionView: View {
             LazyVStack {
                 ForEach(stationSelectionVM.searchResults, id: \.code) { station in
                     Button {
-                        directionVM.setStation(station.title, for: role)
+                        directionVM.setStation(station, for: role)
                         path = NavigationPath()
                     } label: {
                         HStack {
