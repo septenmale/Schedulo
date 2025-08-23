@@ -8,13 +8,14 @@
 import Foundation
 
 /// Описывает модель деталей маршрута
-struct RouteDetailsModel: Hashable, Identifiable {
+struct RouteDetailsModel: Hashable, Identifiable, Sendable {
     let id: String
     
     let name: String
     let carrierCode: String
     let logoURL: URL?
     
+    //TODO: Убрать
     let fromTitle: String
     let toTitle: String
     

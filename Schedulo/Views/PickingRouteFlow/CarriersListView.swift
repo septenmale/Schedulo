@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-//TODO: Стоит здесь и на экранах похоже типа поправить отсупы. Между заголовка, от краев экрана и тд. По ощущениям слишком много.
 struct CarriersListView: View {
     @State private var carriersVM: CarriersListViewModel
     // Если уже передаю ВМ целиком то routeInfo можно также получать из нее
@@ -48,7 +47,6 @@ struct CarriersListView: View {
                         NavigationLink {
                             CarrierCard(carrier: card)
                         } label: {
-                            //TODO: Сделать отдельную вм CarrierDetailsViewModel для загрузки инфо
                             CarrierCellView(carrierInfo: card)
                                 .listRowSeparator(.hidden)
                         }

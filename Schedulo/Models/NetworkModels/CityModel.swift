@@ -5,7 +5,7 @@
 //  Created by Viktor Zavhorodnii on 18/08/2025.
 //
 
-struct City {
+struct City: Sendable {
     let code: String
     let title: String
     /// Не уверен что нужно здесь, но вероятно для фильтрации ответа по нужным странам

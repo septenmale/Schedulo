@@ -8,7 +8,6 @@
 import SwiftUI
 import WebKit
 
-//TODO: Вынести в модель
 struct WebView: UIViewRepresentable {
     let url: URL
     
