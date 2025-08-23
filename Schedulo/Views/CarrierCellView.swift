@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CarrierCellView: View {
-    let carrierInfo: CarrierCardInfo
+    let carrierInfo: RouteDetailsModel
     
     var body: some View {
         ZStack {

@@ -8,12 +8,6 @@
 import Foundation
 import OpenAPIURLSession
 
-// Если пометитить VM как MainActor то все экземплярные свойства и методы этой VM изолированы главным актором.
-// Это значит что Любая тяжёлая синхронная работа внутри такой VM будет блокировать главный поток — @MainActor не делает её волшебно фоновой.
-// Поэтому тяжелую работу стоит выносить в сервисы
-
-// nonisolated-метод в @MainActor VM — допустимая «лайт-альтернатива» сервису в маленьких проектах. Но он жёстко ограничен: не трогает self, требует Sendable данных и легко превращается в «скрытый сервис», который хуже тестируется. Для масштабируемости — отдельный сервис по протоколу остаётся более надёжным выбором.
-
 @MainActor
 @Observable
 final class CarriersListViewModel {
@@ -21,14 +15,14 @@ final class CarriersListViewModel {
     var fromStation: Station
     var toStation: Station
     
-    private(set) var allCarrierCards: [CarrierCardInfo] = []
+    private(set) var allCarrierCards: [RouteDetailsModel] = []
     var shouldShowNoResults: Bool {
         allCarrierCards.isEmpty
     }
     
     var filterState = FilterState(times: [], transfer: nil)
     
-    var filtered: [CarrierCardInfo] {
+    var filtered: [RouteDetailsModel] {
         allCarrierCards.filter { card in
             matchesTimeBuckets(card) && matchesTransfer(card)
         }
@@ -50,7 +44,7 @@ final class CarriersListViewModel {
         }
     }
     
-    private func matchesTransfer(_ card: CarrierCardInfo) -> Bool {
+    private func matchesTransfer(_ card: RouteDetailsModel) -> Bool {
         guard let choice = filterState.transfer else { return true }
         switch choice {
         case .yes: return card.hasTransfers
@@ -58,7 +52,7 @@ final class CarriersListViewModel {
         }
     }
     
-    private func matchesTimeBuckets(_ card: CarrierCardInfo) -> Bool {
+    private func matchesTimeBuckets(_ card: RouteDetailsModel) -> Bool {
         if filterState.times.isEmpty { return true }
         guard let dep = card.departureDate else { return false }
         
@@ -73,16 +67,13 @@ final class CarriersListViewModel {
         return filterState.times.contains(bucket)
     }
     
-    private func mapToCarrierCards(_ response: RoutesBetweenStations) -> [CarrierCardInfo] {
+    private func mapToCarrierCards(_ response: RoutesBetweenStations) -> [RouteDetailsModel] {
         let segments = response.segments ?? []
         return segments.map { segment in
             let thread = segment.thread
             let id = thread?.uid ?? UUID().uuidString
             let name = thread?.carrier?.title ?? thread?.title ?? "Unknown"
-            let carrierCode =
-            thread?.carrier?.codes?.iata ??
-            thread?.carrier?.codes?.icao ??
-            thread?.number ?? "N/A"
+            let carrierCode = thread?.carrier?.code ?? 63438
             
             let logoURL: URL?
             if let logo = thread?.carrier?.logo, !logo.isEmpty {
@@ -91,10 +82,10 @@ final class CarriersListViewModel {
                 logoURL = nil
             }
             
-            return CarrierCardInfo(
+            return RouteDetailsModel(
                 id: id,
                 name: name,
-                carrierCode: carrierCode,
+                carrierCode: String(carrierCode),
                 logoURL: logoURL,
                 fromTitle: segment.from?.title ?? "Unknown",
                 toTitle: segment.to?.title ?? "Unknown",
@@ -106,7 +97,7 @@ final class CarriersListViewModel {
         }
     }
     
-    private func fetchAllRoutes() async throws -> [CarrierCardInfo] {
+    private func fetchAllRoutes() async throws -> [RouteDetailsModel] {
         let client = Client(
             serverURL: try Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -118,7 +109,6 @@ final class CarriersListViewModel {
         )
         
         let response = try await service.getRoutesBetweenStations(
-            //TODO: Заменить на динамические данные
             from: fromStation.code,
             to: toStation.code,
         )

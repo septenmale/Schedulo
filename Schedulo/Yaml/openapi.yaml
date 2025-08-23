@@ -881,7 +881,10 @@ components:
           description: Тип транспортного пункта (settlement или station)
     CarrierResponse:
       type: object
+      description: API может вернуть либо один carrier, либо массив carriers.
       properties:
+        carrier:
+          $ref: '#/components/schemas/Carrier'
         carriers:
           type: array
           items:

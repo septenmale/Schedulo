@@ -104,7 +104,7 @@
       }
     },
     "E-mail" : {
-      "shouldTranslate" : false
+
     },
     "NoCityTitle" : {
       "comment" : "Shown when no city found on CitySelectionView",
@@ -252,9 +252,6 @@
     },
     "Загрузка..." : {
 
-    },
-    "ОАО \"РЖД\"" : {
-      "shouldTranslate" : false
     },
     "Пользовательское соглашение" : {
 

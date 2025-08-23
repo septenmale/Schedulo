@@ -48,7 +48,7 @@ struct CarriersListView: View {
                         NavigationLink {
                             CarrierCard(carrier: card)
                         } label: {
-                            //TODO: Сделать отдельную вм CarrierDetailsViewModel для загрузки инфо 
+                            //TODO: Сделать отдельную вм CarrierDetailsViewModel для загрузки инфо
                             CarrierCellView(carrierInfo: card)
                                 .listRowSeparator(.hidden)
                         }
