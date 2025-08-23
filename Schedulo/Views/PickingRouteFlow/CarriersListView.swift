@@ -34,12 +34,21 @@ struct CarriersListView: View {
             Text("\(carriersVM.route.fromCity) (\(carriersVM.route.fromStation)) -> \(carriersVM.route.toCity) (\(carriersVM.route.toStation))")
                 .titleStyle()
             
+            if carriersVM.shouldShowNoResults {
+                VStack {
+                    Spacer()
+                    Text("NoResults")
+                        .titleStyle()
+                }
+            }
+            
             ScrollView(showsIndicators: false) {
                 LazyVStack {
-                    ForEach(carriersVM.all) { card in
+                    ForEach(carriersVM.allCarrierCards) { card in
                         NavigationLink {
                             CarrierCard(carrier: card)
                         } label: {
+                            //TODO: Сделать отдельную вм CarrierDetailsViewModel для загрузки инфо 
                             CarrierCellView(carrierInfo: card)
                                 .listRowSeparator(.hidden)
                         }
@@ -63,7 +72,7 @@ struct CarriersListView: View {
             print("Станция откуда: \(String(describing: directionVM.selectedFromStation)) станция куда: \(String(describing: directionVM.selectedToStation))")
         }
         .task {
-            await carriersVM.testData()
+            await carriersVM.getCarriersCards()
         }
     }
 }

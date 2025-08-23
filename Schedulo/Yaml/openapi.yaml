@@ -534,6 +534,9 @@ components:
           $ref: '#/components/schemas/Thread'
         tickets_info:
           $ref: '#/components/schemas/TicketsInfo'
+        has_transfers:
+          type: boolean
+          description: Признак наличия пересадок по маршруту.
         duration:
           type: integer
           description: Длительность рейса в секундах

@@ -14,7 +14,7 @@ final class CitySelectionViewModel {
     var isLoading: Bool = true
     
     private var payload: AllStations?
-    private var desiredCountries = ["Россия", "Украина", "Польша"]
+    private var desiredCountries = ["Россия", "Польша"]
     var swiftCities: [City] = []
     
     var searchText = ""
@@ -31,6 +31,7 @@ final class CitySelectionViewModel {
     
     /// Сохраняет сырой payload и строит массив городов на основании него и выбранных стран
     func fetchCities() async {
+        //TODO: Добавить проверку чтобы не грузить за каждым разом
         do {
             async let allStations = fetchAllStations()
             let payload = try await allStations

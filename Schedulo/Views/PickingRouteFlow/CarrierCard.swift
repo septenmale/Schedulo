@@ -42,10 +42,10 @@ struct CarrierCard: View {
     }
 }
 
-#Preview {
-    let info =  CarrierCardInfo(name: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true)
-    CarrierCard(carrier: info)
-}
+//#Preview {
+//    let info =  CarrierCardInfo(name: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true)
+//    CarrierCard(carrier: info)
+//}
 
 
 //func loadStrings() async {

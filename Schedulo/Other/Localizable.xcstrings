@@ -140,6 +140,9 @@
         }
       }
     },
+    "NoResults" : {
+
+    },
     "NoStationTitle" : {
       "comment" : "Shown when no city found on StationSelectionView",
       "localizations" : {
@@ -259,8 +262,8 @@
     "Приложение использует API «Яндекс.Расписания»" : {
 
     },
-    "С пересадкой в Костроме" : {
-      "shouldTranslate" : false
+    "С пересадкой" : {
+
     },
     "Темная тема" : {
 

@@ -21,20 +21,16 @@ final class CarriersListViewModel {
     var fromStation: Station
     var toStation: Station
     
-    private(set) var all: [CarrierCardInfo] = [
-        CarrierCardInfo(name: "РЖД", date: "14 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true),
-        CarrierCardInfo(name: "ФГК", date: "15 января", departureTime: "01:15", arrivalTime: "09:00", time: "20 часов", shouldTransfer: false),
-        CarrierCardInfo(name: "Урал логистика", date: "16 января", departureTime: "12:30", arrivalTime: "21:00", time: "9 часов", shouldTransfer: false),
-        CarrierCardInfo(name: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true),
-        CarrierCardInfo(name: "РЖД", date: "17 января", departureTime: "22:30", arrivalTime: "08:15", time: "20 часов", shouldTransfer: true),
-        CarrierCardInfo(name: "РЖД", date: "17 января", departureTime: "23:15", arrivalTime: "09:40", time: "20 часов", shouldTransfer: false)
-    ]
+    private(set) var allCarrierCards: [CarrierCardInfo] = []
+    var shouldShowNoResults: Bool {
+        allCarrierCards.isEmpty
+    }
     
     var filterState = FilterState(times: [], transfer: nil)
     
     // Возвращаю пока полный список. Позже добавлю логику фильтрации
     var filtered: [CarrierCardInfo] {
-        all
+        allCarrierCards
     }
     
     init(route: RouteInfo, fromStation: Station, toStation: Station) {
@@ -43,16 +39,50 @@ final class CarriersListViewModel {
         self.toStation = toStation
     }
     
-    func testData() async {
+    func getCarriersCards() async {
         do {
-            let response = try await fetchAllRoutes()
-            print("✅ Response:", response)
+            let carriers = try await fetchAllRoutes()
+            allCarrierCards = carriers
+            print("✅ Loaded carriers:", carriers)
         } catch {
             print("❌ Error:", error)
         }
     }
     
-    private func fetchAllRoutes() async throws -> RoutesBetweenStations {
+    private func mapToCarrierCards(_ response: RoutesBetweenStations) -> [CarrierCardInfo] {
+        let segments = response.segments ?? []
+        return segments.map { segment in
+            let thread = segment.thread
+            let id = thread?.uid ?? UUID().uuidString
+            let name = thread?.carrier?.title ?? thread?.title ?? "Unknown"
+            let carrierCode =
+            thread?.carrier?.codes?.iata ??
+            thread?.carrier?.codes?.icao ??
+            thread?.number ?? "N/A"
+            
+            let logoURL: URL?
+            if let logo = thread?.carrier?.logo, !logo.isEmpty {
+                logoURL = URL(string: logo.hasPrefix("http") ? logo : "https:\(logo)")
+            } else {
+                logoURL = nil
+            }
+            
+            return CarrierCardInfo(
+                id: id,
+                name: name,
+                carrierCode: carrierCode,
+                logoURL: logoURL,
+                fromTitle: segment.from?.title ?? "Unknown",
+                toTitle: segment.to?.title ?? "Unknown",
+                departureRaw: segment.departure ?? "",
+                arrivalRaw: segment.arrival ?? "",
+                durationSeconds: segment.duration ?? 0,
+                hasTransfers: segment.has_transfers ?? false
+            )
+        }
+    }
+    
+    private func fetchAllRoutes() async throws -> [CarrierCardInfo] {
         let client = Client(
             serverURL: try Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -64,11 +94,11 @@ final class CarriersListViewModel {
         )
         
         let response = try await service.getRoutesBetweenStations(
-            //TODO: Заменить на динамические данные 
-            from: "c146",
-            to: "c213",
+            //TODO: Заменить на динамические данные
+            from: fromStation.code,
+            to: toStation.code,
         )
         
-        return response
+        return mapToCarrierCards(response)
     }
 }
