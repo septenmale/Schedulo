@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CitySelectionView: View {
+    // Из за того что экземпляр создаю тут ВМ пересоздается за каждым разом и не успевает сохранить данные
     @State private var citySelectionVM = CitySelectionViewModel()
     @Binding var path: NavigationPath
     @Binding var directionVM: DirectionViewModel

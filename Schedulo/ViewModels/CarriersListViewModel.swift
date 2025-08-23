@@ -28,9 +28,10 @@ final class CarriersListViewModel {
     
     var filterState = FilterState(times: [], transfer: nil)
     
-    // Возвращаю пока полный список. Позже добавлю логику фильтрации
     var filtered: [CarrierCardInfo] {
-        allCarrierCards
+        allCarrierCards.filter { card in
+            matchesTimeBuckets(card) && matchesTransfer(card)
+        }
     }
     
     init(route: RouteInfo, fromStation: Station, toStation: Station) {
@@ -47,6 +48,29 @@ final class CarriersListViewModel {
         } catch {
             print("❌ Error:", error)
         }
+    }
+    
+    private func matchesTransfer(_ card: CarrierCardInfo) -> Bool {
+        guard let choice = filterState.transfer else { return true }
+        switch choice {
+        case .yes: return card.hasTransfers
+        case .no:  return !card.hasTransfers
+        }
+    }
+    
+    private func matchesTimeBuckets(_ card: CarrierCardInfo) -> Bool {
+        if filterState.times.isEmpty { return true }
+        guard let dep = card.departureDate else { return false }
+        
+        let hour = Calendar.current.component(.hour, from: dep)
+        let bucket: DepartureTime
+        switch hour {
+        case 6..<12:   bucket = .morning   // 06:00–11:59
+        case 12..<18:  bucket = .day       // 12:00–17:59
+        case 18..<24:  bucket = .evening   // 18:00–23:59
+        default:       bucket = .night     // 00:00–05:59
+        }
+        return filterState.times.contains(bucket)
     }
     
     private func mapToCarrierCards(_ response: RoutesBetweenStations) -> [CarrierCardInfo] {

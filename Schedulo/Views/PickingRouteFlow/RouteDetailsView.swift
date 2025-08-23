@@ -12,7 +12,6 @@ struct RouteDetailsView: View {
     let carriersVM: CarriersListViewModel
     
     var haveResults: Bool {
-        //        false
         !carriersVM.filtered.isEmpty
     }
     

@@ -9,6 +9,7 @@ import Foundation
 
 //TODO: Привести к UI внешнему виду
 /// Описывает модель карточки перевозчика
+
 struct CarrierCardInfo: Hashable, Identifiable {
     let id: String
     
