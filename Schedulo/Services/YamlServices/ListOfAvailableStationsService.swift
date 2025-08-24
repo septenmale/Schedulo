@@ -42,26 +42,3 @@ final class ListOfAvailableStationsService: ListOfAvailableStationsServiceProtoc
         return allStations
     }
 }
-
-/// Func for test API call "getAllStations" method
-func testFetchAllStations() {
-    Task {
-        do {
-            let client = Client(
-                serverURL: try Servers.Server1.url(),
-                transport: URLSessionTransport()
-            )
-            
-            let service = ListOfAvailableStationsService(
-                client: client,
-                apikey: appKeys.yandexRaspAPIKey.rawValue
-            )
-            
-            print("Fetching list of stations...")
-            let response = try await service.getListOfAvailableStations()
-            print("Got response", response)
-        } catch {
-            print("Error fetching list of stations:", error)
-        }
-    }
-}

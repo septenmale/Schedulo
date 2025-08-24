@@ -534,6 +534,9 @@ components:
           $ref: '#/components/schemas/Thread'
         tickets_info:
           $ref: '#/components/schemas/TicketsInfo'
+        has_transfers:
+          type: boolean
+          description: Признак наличия пересадок по маршруту.
         duration:
           type: integer
           description: Длительность рейса в секундах
@@ -878,7 +881,10 @@ components:
           description: Тип транспортного пункта (settlement или station)
     CarrierResponse:
       type: object
+      description: API может вернуть либо один carrier, либо массив carriers.
       properties:
+        carrier:
+          $ref: '#/components/schemas/Carrier'
         carriers:
           type: array
           items:

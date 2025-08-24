@@ -104,7 +104,7 @@
       }
     },
     "E-mail" : {
-      "shouldTranslate" : false
+
     },
     "NoCityTitle" : {
       "comment" : "Shown when no city found on CitySelectionView",
@@ -139,6 +139,9 @@
           }
         }
       }
+    },
+    "NoResults" : {
+
     },
     "NoStationTitle" : {
       "comment" : "Shown when no city found on StationSelectionView",
@@ -247,8 +250,8 @@
     "Версия 1.0 (beta)" : {
 
     },
-    "ОАО \"РЖД\"" : {
-      "shouldTranslate" : false
+    "Загрузка..." : {
+
     },
     "Пользовательское соглашение" : {
 
@@ -256,8 +259,8 @@
     "Приложение использует API «Яндекс.Расписания»" : {
 
     },
-    "С пересадкой в Костроме" : {
-      "shouldTranslate" : false
+    "С пересадкой" : {
+
     },
     "Темная тема" : {
 

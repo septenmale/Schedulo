@@ -7,57 +7,25 @@
 
 import SwiftUI
 
-//TODO: Убрать в модель
-struct StoriesData: Identifiable {
-    var id = UUID()
-    let sImage: String
-    let lImage: String
-    var isShown: Bool
-}
-
-//TODO: Решить убирать в модели или оставить
-/// Обертка над переменной типа Int в DirectionView чтобы работал fullScreenCover
-struct StoryIndex: Identifiable {
-    let id: Int
-}
-
 struct DirectionView: View {
-    
-    //TODO: Move to VM
-    @State private var stories: [StoriesData] = [
-        StoriesData(sImage: "S-Story-1", lImage: "L-Story-1", isShown: false),
-        StoriesData(sImage: "S-Story-2", lImage: "L-Story-2", isShown: false),
-        StoriesData(sImage: "S-Story-3", lImage: "L-Story-3", isShown: false),
-        StoriesData(sImage: "S-Story-4", lImage: "L-Story-4", isShown: false),
-        StoriesData(sImage: "S-Story-5", lImage: "L-Story-5", isShown: false),
-        StoriesData(sImage: "S-Story-6", lImage: "L-Story-6", isShown: false),
-        StoriesData(sImage: "S-Story-7", lImage: "L-Story-7", isShown: false),
-        StoriesData(sImage: "S-Story-8", lImage: "L-Story-8", isShown: false),
-        StoriesData(sImage: "S-Story-9", lImage: "L-Story-9", isShown: false),
-    ]
-    
+    @State private var storiesVM = StoriesViewModel()
+    @State private var directionVM = DirectionViewModel()
     @State private var path = NavigationPath()
-    @State private var fromHistory = SelectionHistory(role: .from)
-    @State private var toHistory = SelectionHistory(role: .to)
-    @State private var showCarriers = false
-    @State private var selectedStoryIndex: StoryIndex? = nil
     
-    var shouldShowButton: Bool {
-        fromHistory.station != nil && toHistory.station != nil
-    }
+    @State private var showCarriers = false
+    @State private var selectedStory: Stories? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             // STORIES
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
-                        StoriesPreview(data: story)
+                    ForEach(storiesVM.stories) { story in
+                        StoriesPreview(story: story)
                             .onTapGesture {
-                                selectedStoryIndex = StoryIndex(id: index)
+                                selectedStory = story
                             }
                     }
-                    
                 }
                 .padding(16)
             }
@@ -73,23 +41,19 @@ struct DirectionView: View {
                             .frame(height: 128)
                         HStack {
                             VStack(alignment: .leading, spacing: 0) {
-                                Button {
-                                    path.append(fromHistory)
-                                } label: {
+                                Button { path.append(directionVM.from) } label: {
                                     HStack {
-                                        Text(fromHistory.giveString())
-                                            .foregroundStyle(fromHistory.city != nil ? Color.appBlack : Color.appGray)
+                                        Text(directionVM.from.giveString())
+                                            .foregroundStyle(directionVM.from.city != nil ? Color.appBlack : Color.appGray)
                                             .font(.system(size: 17, weight: .regular))
                                         Spacer()
                                     }
                                 }
                                 Spacer()
-                                Button {
-                                    path.append(toHistory)
-                                } label: {
+                                Button { path.append(directionVM.to) } label: {
                                     HStack {
-                                        Text(toHistory.giveString())
-                                            .foregroundStyle(toHistory.city != nil ? Color.appBlack : Color.appGray)
+                                        Text(directionVM.to.giveString())
+                                            .foregroundStyle(directionVM.to.city != nil ? Color.appBlack : Color.appGray)
                                             .font(.system(size: 17, weight: .regular))
                                         Spacer()
                                     }
@@ -102,16 +66,7 @@ struct DirectionView: View {
                                     .fill(Color.white)
                             )
                             Spacer()
-                            Button {
-                                let tempCity = fromHistory.city
-                                let tempStation = fromHistory.station
-                                
-                                fromHistory.city = toHistory.city
-                                fromHistory.station = toHistory.station
-                                
-                                toHistory.city = tempCity
-                                toHistory.station = tempStation
-                            } label: {
+                            Button { directionVM.swapDirections() } label: {
                                 Image(.reverseButton)
                                     .frame(width: 36, height: 36)
                             }
@@ -124,29 +79,27 @@ struct DirectionView: View {
                         if step.city == nil {
                             CitySelectionView(
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory,
+                                directionVM: $directionVM,
+                                role: step.role,
                             )
                         } else if step.station == nil {
                             StationSelectionView(
+                                directionVM: $directionVM,
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory
+                                role: step.role
                             )
                         } else {
                             CitySelectionView(
                                 path: $path,
-                                selectionHistory: step.role == .from ? $fromHistory : $toHistory,
+                                directionVM: $directionVM,
+                                role: step.role
                             )
                         }
                     }
                     
-                    if shouldShowButton {
+                    if directionVM.shouldShowSearchButton {
                         NavigationLink {
-                            CarriersView(routeInfo: RouteInfo(
-                                fromCity: fromHistory.city ?? "",
-                                toCity: toHistory.city ?? "",
-                                fromStation: fromHistory.station ?? "",
-                                toStation: toHistory.station ?? "")
-                            )
+                            CarriersListView(routeInfo: directionVM.buildRouteInfo(), directionVM: directionVM)
                         } label: {
                             Text("SearchButton")
                                 .frame(width: 150, height: 60)
@@ -162,18 +115,15 @@ struct DirectionView: View {
                 .padding(.top, 16)
         }
         
-        .fullScreenCover(item: $selectedStoryIndex) { storyIndex in
+        .fullScreenCover(item: $selectedStory) { story in
             StoriesFullscreenView(
-                data: stories,
-                initialStoryIndex: storyIndex.id,
-                markStoryAsShown: { index in
-                    stories[index].isShown = true
-                }
+                storiesVM: $storiesVM,
+                initialStoryIndex: story.index,
             )
         }
     }
 }
 
 #Preview {
-    ContentView()
+    DirectionView()
 }

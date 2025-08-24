@@ -8,36 +8,35 @@
 import SwiftUI
 
 struct StationSelectionView: View {
-    
-    //TODO: Вынести из View
-    let stations = ["Киевский вокзал", "Курский вокзал", "Ярославский вокзал", "Белорусский вокзал", "Савеловский вокзал", "Ленинградский вокзал"]
-    
-    @State private var searchText = ""
+    @Binding var directionVM: DirectionViewModel
     @Binding var path: NavigationPath
-    @Binding var selectionHistory: SelectionHistory
-    var shouldShowNoResults: Bool {
-        searchResults.isEmpty
+    let role: DirectionRole
+    
+    @State private var stationSelectionVM: StationSelectionViewModel
+    
+    init(directionVM: Binding<DirectionViewModel>, path: Binding<NavigationPath>, role: DirectionRole) {
+        self._directionVM = directionVM
+        self._path = path
+        self.role = role
+        // берём подготовленные станции из DirectionVM
+        let stations = directionVM.wrappedValue.stations(for: role)
+        self._stationSelectionVM = State(initialValue: StationSelectionViewModel(stations: stations))
     }
     
     var body: some View {
-        
-        if shouldShowNoResults {
-            VStack {
-                Spacer()
-                Text("NoStationTitle")
-                    .titleStyle()
-            }
+        if stationSelectionVM.shouldShowNoResults {
+            VStack { Spacer(); Text("NoStationTitle").titleStyle() }
         }
         
         ScrollView(showsIndicators: false) {
             LazyVStack {
-                ForEach(searchResults, id: \.self) { station in
+                ForEach(stationSelectionVM.searchResults, id: \.code) { station in
                     Button {
-                        selectionHistory.station = station
+                        directionVM.setStation(station, for: role)
                         path = NavigationPath()
                     } label: {
                         HStack {
-                            Text(station)
+                            Text(station.title)
                             Spacer()
                             Image(.chevronIcon)
                         }
@@ -45,21 +44,19 @@ struct StationSelectionView: View {
                     }
                 }
             }
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search"))
+            .searchable(text: $stationSelectionVM.searchText,
+                        placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: Text("Search"))
         }
-        
         .navigationTitle("Station selection")
         .toolbarRole(.editor)
-    }
-    
-    // Повторяется в двух View. Подумать над этим
-    var searchResults: [String] {
-        searchText.isEmpty ? stations : stations.filter { $0.contains(searchText) }
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 
 #Preview {
-    @Previewable @State var history = SelectionHistory(role: .from)
+    @Previewable @State var directionVM = DirectionViewModel()
     @Previewable @State var path = NavigationPath()
-    StationSelectionView(path: $path, selectionHistory: $history)
+    let role: DirectionRole = .from
+    StationSelectionView(directionVM: $directionVM, path: $path, role: role)
 }

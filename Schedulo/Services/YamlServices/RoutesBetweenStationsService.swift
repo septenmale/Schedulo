@@ -7,6 +7,7 @@
 
 import OpenAPIRuntime
 import OpenAPIURLSession
+import Foundation
 
 typealias RoutesBetweenStations = Components.Schemas.Segments
 
@@ -30,10 +31,15 @@ final class RoutesBetweenStationsService: RoutesBetweenStationsServiceProtocol {
     ///   - to: arrival station
     /// - Returns: a list of trips from the specified departure station to the specified arrival station, along with details for each trip.
     func getRoutesBetweenStations(from: String, to: String) async throws -> RoutesBetweenStations {
+        let date     = ISO8601DateFormatter().string(from: Date()).prefix(10)
+        let dateStr  = String(date)
+        
         let response = try await client.getScheduleBetweenStations(query: .init(
             apikey: apikey,
             from: from,
             to: to,
+            date: dateStr,
+            transfers: true
         ))
         
         return try response.ok.body.json
